@@ -1,21 +1,23 @@
 import React from 'react';
 import './App.css';
-import Navbar from '../Navbar';
-import UserCard from '../UserCard';
-
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primeicons/primeicons.css';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { rootReducer } from '../../reducers';
+import Navbar from '../../containers/Navbar';
+import UserCard from '../../containers/UserCard';
 
-const user: boolean = true;
+const store = createStore(rootReducer);
 
 export default () => {
   return (
-    <>
+    <Provider store={store}>
       <Navbar />
       <div className="container d-flex justify-content-around mt-3 mb-3 flex-lg-wrap">
-        {user ? <UserCard /> : <h2>Начните поиск</h2>}
+        <UserCard />
       </div>
-    </>
+    </Provider>
   );
 };

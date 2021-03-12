@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Search from './Search';
 
-export default () => {
+type NavbarProps = {
+  onSubmit: (value: string) => void,
+}
+
+export default ({ onSubmit }: NavbarProps) => {
   return (
     <nav className="navbar navbar-light bg-secondary">
       <div className="container">
-        <Search />
+        <Search onSubmit={onSubmit}/>
       </div>
     </nav>
   );

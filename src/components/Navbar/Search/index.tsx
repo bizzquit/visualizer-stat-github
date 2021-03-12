@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
+import { Button } from 'primereact/button';
 
-export default () => {
+type SearchProps = {
+  onSubmit: (value: string) => void;
+};
+
+export default ({onSubmit}: SearchProps) => {
   const [value, setValue] = useState('');
 
   return (
-    <form className="d-flex">
+    <div className="d-flex">
       <input
         className="form-control me-2"
         type="search"
         value={value}
-        placeholder="Search"
+        placeholder="Логин"
         aria-label="Search"
         onChange={(event) => setValue(event.target.value)}
       />
-      <button className="btn btn-primary" type="submit">
-        Искать
-      </button>
-    </form>
+      <Button label="Искать" onClick={() => onSubmit(value)} />
+    </div>
   );
 };
