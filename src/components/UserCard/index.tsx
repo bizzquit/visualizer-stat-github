@@ -25,7 +25,7 @@ export default ({ user }: UserCardProps) => {
         );
       case LoadStatus.Error:
         return (
-          <div className='error-block'>
+          <div className='mt-4'>
             <h2>Пользователь не найден</h2>
             <p>Попробуйте уточнить логин для поиска</p>
           </div>
