@@ -1,16 +1,16 @@
 import React from 'react';
-import UserInfo from './UserInfo';
 import UserRepos from './UserRepos';
+import UserInfo from '../../containers/UserInfo';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
+
 import './styles.css';
 
 type UserCardProps = {
   user: User;
-}
+};
 
 export default ({ user }: UserCardProps) => {
-
   function showUserData() {
     switch (user.loadStatus) {
       case LoadStatus.Success:
@@ -25,25 +25,21 @@ export default ({ user }: UserCardProps) => {
         );
       case LoadStatus.Error:
         return (
-          <div className='mt-4'>
+          <div className="mt-4">
             <h2>Пользователь не найден</h2>
             <p>Попробуйте уточнить логин для поиска</p>
           </div>
         );
       case LoadStatus.Loading:
         return (
-          <div className='preload-wrapper'>
+          <div className="preload-wrapper">
             <ProgressSpinner />
           </div>
         );
     }
   }
 
-  return (
-    <>
-      { showUserData() }
-    </>
-  );
+  return <>{showUserData()}</>;
 };
 
 export interface User {
@@ -60,11 +56,11 @@ export interface User {
   following_url: string;
   gists_url: string;
   gravatar_id: string;
-  hireable: null
+  hireable: null;
   html_url: string;
   id: number;
   loadStatus: LoadStatus;
-  location: null
+  location: null;
   login: string;
   name: string;
   node_id: string;

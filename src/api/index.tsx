@@ -14,12 +14,13 @@ export default class Api {
     return this.fetchData(`https://api.github.com/users/${login}`);
   }
 
-  private async fetchData(url: string) {
-    const res = await fetch(url);
-    if ([404, 500].includes(res.status)) {
-      throw res;
-    } else {
-      return res.json();
-    }
+  private fetchData(url: string) {
+    return fetch(url).then((res) => {
+      if ([404, 500].includes(res.status)) {
+        throw res;
+      } else {
+        return res.json();
+      }
+    });
   }
 }
