@@ -1,4 +1,7 @@
 import React from 'react';
+import { Card } from 'primereact/card';
+
+import './style.css';
 
 interface IFieldUser<TValue> {
   [key: string]: TValue;
@@ -7,24 +10,42 @@ interface IFieldUser<TValue> {
 export default ({ user }: any) => {
   const fieldsUser: IFieldUser<string> = {
     bio: '',
-    login: 'Ник: ',
-    company: 'Компания: ',
+    // login: 'Ник: ',
+    company: 'Организации: ',
     followers: 'Подписчики: ',
     following: 'Подписки: ',
     location: 'Нахождение: ',
+    blog: 'Блог: ',
     Email: 'email: ',
   };
 
+  const headerContext = (
+    <div className="p-d-flex p-flex-column">
+      <div className="p-d-flex p-flex-row p-jc-center p-ai-center">
+        <h2 className="p-mb-3 p-text-center">{user.login}</h2>
+        <a className="pi pi-link p-ml-2 p-mt-2" href={user.html_url} target={'_blank'}>
+          {' '}
+        </a>
+      </div>
+      <img
+        src={user.avatar_url}
+        className="p-avatar-circle avatar p-m-auto p-p-1"
+        alt="avatar user"
+        style={{ width: '60%', border: '1px solid var(--bluegray-500)' }}
+      />
+    </div>
+  );
+
   const fieldsArray: JSX.Element[] = [];
-  console.log(user);
+
   const renderDiff = () => {
     for (const key in fieldsUser) {
       if (user[key]) {
         fieldsArray.push(
-          <span key={key + user.id} className={`card-title d-block fw-bold`}>
+          <li key={key + user.id} className="p-text-bold  p-mb-2">
             {fieldsUser[key]}
-            <i className="fw-normal">{user[key]}</i>
-          </span>
+            <i className="p-text-normal">{user[key]}</i>
+          </li>
         );
       }
     }
@@ -32,27 +53,17 @@ export default ({ user }: any) => {
   };
 
   return (
-    <div
-      className="container d-flex flex-column"
+    <Card
+      title={user.name}
+      header={headerContext}
       style={{
-        width: '30%',
-        borderRight: '1px solid rgba(108, 117, 125, 0.3)',
+        backgroundColor: 'var(--bluegray-200)',
+        border: '1px solid var(--bluegray-500)',
       }}
+      className="p-p-2 p-mr-3"
     >
-      <div className="card-body">
-        <h4 className="card-title text-center fw-bold">{user.name}</h4>
-        <img
-          src={user.avatar_url}
-          className="card-img-top mt-3 m-auto align-content-sm-center"
-          alt="avatar user"
-          style={{
-            borderRadius: '50%',
-            border: '1px solid rgba(108, 117, 125, 0.3)',
-          }}
-        />
-        <hr />
-        {renderDiff()}
-      </div>
-    </div>
+      <hr className="p-m-0" style={{ border: '1px solid var(--bluegray-500)' }} />
+      <ul className="list-fields">{renderDiff()}</ul>
+    </Card>
   );
 };

@@ -41,20 +41,13 @@ const repos = [
 
 export default () => {
   return (
-    <div className="container d-flex flex-column" style={{ width: '70%' }}>
-      <h4 className="text-center">Список репозиториев</h4>
+    <div className="container p-d-flex p-flex-column" style={{ minWidth: '70%' }}>
+      <h2 className="p-m-0 p-text-center">Список репозиториев</h2>
       {repos.map((repo) => (
-        <div
-          className="card m-2"
-          key={repo.id}
-          style={{ backgroundColor: 'rgba(201, 205, 208, 0.5)' }}
-        >
-          <div
-            className="card-header d-flex justify-content-between"
-            style={{ backgroundColor: '#c9cdd0' }}
-          >
+        <div className="" key={repo.id} style={{ backgroundColor: 'rgba(201, 205, 208, 0.5)' }}>
+          <div className="" style={{ backgroundColor: '#c9cdd0' }}>
             <a href="">
-              <h5 className="card-title fw-bold name">{repo.name}</h5>
+              <h5 className="">{repo.name}</h5>
             </a>
             <span className="card-text info-field d-block fw-bold">
               stars:

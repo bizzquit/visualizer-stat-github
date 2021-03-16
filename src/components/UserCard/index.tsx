@@ -15,17 +15,14 @@ export default ({ user }: UserCardProps) => {
     switch (user.loadStatus) {
       case LoadStatus.Success:
         return (
-          <div
-            className="card d-flex flex-row"
-            style={{ width: '100%', backgroundColor: 'rgba(201, 205, 208, 0.5)' }}
-          >
+          <div className="container p-d-lg-flex p-d-sm-block p-m-4">
             <UserInfo />
             <UserRepos />
           </div>
         );
       case LoadStatus.Error:
         return (
-          <div className="mt-4">
+          <div className="p-ai-center p-mt-4 p-m-auto">
             <h2>Пользователь не найден</h2>
             <p>Попробуйте уточнить логин для поиска</p>
           </div>
