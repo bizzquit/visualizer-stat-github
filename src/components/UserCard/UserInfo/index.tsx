@@ -10,13 +10,12 @@ interface IFieldUser<TValue> {
 export default ({ user }: any) => {
   const fieldsUser: IFieldUser<string> = {
     bio: '',
-    // login: 'Ник: ',
     company: 'Организации: ',
     followers: 'Подписчики: ',
     following: 'Подписки: ',
     location: 'Нахождение: ',
     blog: 'Блог: ',
-    Email: 'email: ',
+    email: 'email: ',
   };
 
   const headerContext = (
@@ -39,6 +38,7 @@ export default ({ user }: any) => {
   const fieldsArray: JSX.Element[] = [];
 
   const renderDiff = () => {
+    // console.log(user);
     for (const key in fieldsUser) {
       if (user[key]) {
         fieldsArray.push(

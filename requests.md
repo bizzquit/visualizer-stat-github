@@ -7,6 +7,32 @@ profile-settings - developer settings - new github app
 - Client secrets:
 - * b692320d1ff2914b3a231a69b2610a1c280eb987
 
+Пара примеров:
+*****
+const getReposUser = async (user:string)=> {
+const response = await octokit.request(`GET /users/${user}/repos`, {
+type: "public",
+per_page:100
+});
+console.log(response.data);
+}
+const getUserInfo = async (user:string)=> {
+const response = await octokit.request(`GET /users/${user}`, {
+});
+console.log(response.data);
+}
+const getUserFollowers = async (user:string)=> {
+const response = await octokit.request(`GET /users/${user}/followers`, {
+per_page:1000
+});
+console.log(response.data);
+}
+
+getUserInfo('mojombo')
+getReposUser('mojombo')
+getUserFollowers('mojombo')
+******
+
 mojombo - случайный юзер
 
 - https://api.github.com/users - все юзеры
