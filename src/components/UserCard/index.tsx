@@ -1,49 +1,42 @@
 import React from 'react';
-import UserInfo from './UserInfo';
 import UserRepos from './UserRepos';
+import UserInfo from '../../containers/UserInfo';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
+
 import './styles.css';
 
 type UserCardProps = {
   user: User;
-}
+};
 
 export default ({ user }: UserCardProps) => {
-
   function showUserData() {
     switch (user.loadStatus) {
       case LoadStatus.Success:
         return (
-          <div
-            className="card d-flex flex-row"
-            style={{ width: '100%', backgroundColor: 'rgba(201, 205, 208, 0.5)' }}
-          >
+          <div className="container p-d-lg-flex p-d-sm-block p-m-4">
             <UserInfo />
             <UserRepos />
           </div>
         );
       case LoadStatus.Error:
         return (
-          <div className='mt-4'>
+          <div className="p-ai-center p-mt-4 p-m-auto">
             <h2>Пользователь не найден</h2>
             <p>Попробуйте уточнить логин для поиска</p>
           </div>
         );
       case LoadStatus.Loading:
         return (
-          <div className='preload-wrapper'>
+          <div className="preload-wrapper">
             <ProgressSpinner />
           </div>
         );
     }
   }
 
-  return (
-    <>
-      { showUserData() }
-    </>
-  );
+  return <>{showUserData()}</>;
 };
 
 export interface User {
@@ -60,11 +53,11 @@ export interface User {
   following_url: string;
   gists_url: string;
   gravatar_id: string;
-  hireable: null
+  hireable: null;
   html_url: string;
   id: number;
   loadStatus: LoadStatus;
-  location: null
+  location: null;
   login: string;
   name: string;
   node_id: string;

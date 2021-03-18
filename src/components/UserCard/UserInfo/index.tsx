@@ -1,46 +1,69 @@
 import React from 'react';
+import { Card } from 'primereact/card';
 
-export default () => {
-  return (
-    <div
-      className="container d-flex flex-column"
-      style={{
-        width: '30%',
-        borderRight: '1px solid rgba(108, 117, 125, 0.3)',
-      }}
-    >
-      <img
-        src="https://avatars.githubusercontent.com/u/36944165?v=4"
-        className="card-img-top mt-3 m-auto"
-        alt="avatar user"
-        style={{
-          width: '250px',
-          height: '250px',
-          borderRadius: '50%',
-          border: '1px solid rgba(108, 117, 125, 0.3)',
-        }}
-      />
-      <div className="card-body">
-        <h5 className="card-title name  fw-bold">{'Имя юзера'}</h5>
-        <span className="card-title info-field d-block fst-italic">{'логин юзера'}</span>
-        <span className="card-title info-field d-block fw-bold">
-          Email:
-          <i className="fw-normal container-fluid">{'111@loc.loc'}</i>
-        </span>
-        <span className="card-title info-field d-block fw-bold">
-          Организация:
-          <i className="fw-normal container-fluid">{'АО "ПФ "СКБ КОНТУР" '}</i>
-        </span>
-        <span className="card-title info-field d-block fw-bold">
-          Локация: <i className="fw-normal container-fluid">{'Рашн федерэйшн'}</i>{' '}
-        </span>
-        <span className="card-title info-field d-block fw-bold">
-          Сайт: <i className="fw-normal container-fluid">{'kontur.ru'}</i>{' '}
-        </span>
-        <a href="/" className="btn btn-primary">
-          Пока просто оставил :)
+import './style.css';
+
+interface IFieldUser<TValue> {
+  [key: string]: TValue;
+}
+
+export default ({ user }: any) => {
+  const fieldsUser: IFieldUser<string> = {
+    bio: '',
+    company: 'Организации: ',
+    followers: 'Подписчики: ',
+    following: 'Подписки: ',
+    location: 'Нахождение: ',
+    blog: 'Блог: ',
+    email: 'email: ',
+  };
+
+  const headerContext = (
+    <div className="p-d-flex p-flex-column">
+      <div className="p-d-flex p-flex-row p-jc-center p-ai-center">
+        <h2 className="p-mb-3 p-text-center">{user.login}</h2>
+        <a className="pi pi-link p-ml-2 p-mt-2" href={user.html_url} target={'_blank'}>
+          {' '}
         </a>
       </div>
+      <img
+        src={user.avatar_url}
+        className="p-avatar-circle avatar p-m-auto p-p-1"
+        alt="avatar user"
+        style={{ width: '60%', border: '1px solid var(--bluegray-500)' }}
+      />
     </div>
+  );
+
+  const fieldsArray: JSX.Element[] = [];
+
+  const renderDiff = () => {
+    // console.log(user);
+    for (const key in fieldsUser) {
+      if (user[key]) {
+        fieldsArray.push(
+          <li key={key + user.id} className="p-text-bold  p-mb-2">
+            {fieldsUser[key]}
+            <i className="p-text-normal">{user[key]}</i>
+          </li>
+        );
+      }
+    }
+    return fieldsArray.map((field) => field);
+  };
+
+  return (
+    <Card
+      title={user.name}
+      header={headerContext}
+      style={{
+        backgroundColor: 'var(--bluegray-200)',
+        border: '1px solid var(--bluegray-500)',
+      }}
+      className="p-p-2 p-mr-3"
+    >
+      <hr className="p-m-0" style={{ border: '1px solid var(--bluegray-500)' }} />
+      <ul className="list-fields">{renderDiff()}</ul>
+    </Card>
   );
 };
