@@ -17,6 +17,9 @@ export default ({ onSubmit }: SearchProps) => {
         placeholder="введите логин..."
         aria-label="Search"
         onChange={(event) => setValue(event.currentTarget.value)}
+        onKeyPress={(event) => {
+          return event.code === 'Enter' ? onSubmit(value) : null;
+        }}
       />
       <Button className="p-ml-2" label="Искать" onClick={() => onSubmit(value)} />
     </div>

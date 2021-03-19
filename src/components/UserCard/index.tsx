@@ -1,6 +1,6 @@
 import React from 'react';
 import UserRepos from './UserRepos';
-import UserInfo from '../../containers/UserInfo';
+import UserInfo from './UserInfo';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
@@ -16,8 +16,8 @@ export default ({ user }: UserCardProps) => {
       case LoadStatus.Success:
         return (
           <div className="container p-d-lg-flex p-d-sm-block p-m-4">
-            <UserInfo />
-            <UserRepos />
+            <UserInfo user={user} />
+            <UserRepos user={user} />
           </div>
         );
       case LoadStatus.Error:
