@@ -1,40 +1,25 @@
 import React from 'react';
-import { Button } from 'primereact/button';
+
 import './App.css';
-
+import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/nova-light/theme.css';
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { rootReducer } from '../../reducers';
+import Navbar from '../../containers/Navbar';
+import UserCard from '../../containers/UserCard';
 
-interface Props {}
-interface State {
-  count: number;
-}
+const store = createStore(rootReducer);
 
-class App extends React.Component<Props, State> {
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      count: 0
-    };
-    this.increment = this.increment.bind(this);
-  }
-
-  increment() {
-    this.setState({
-      count: this.state.count + 1
-    });
-  }
-
-  render() {
-    return (
-        <div className="App">
-          <Button label="PrimeReact" icon="pi pi-check" onClick={this.increment} />
-          <p>Number of Clicks:{this.state.count}</p>
-        </div>
-    );
-  }
-}
-
-export default App;
+export default () => {
+  return (
+    <Provider store={store}>
+      <Navbar />
+      <div className="p-d-flex container">
+        <UserCard />
+      </div>
+    </Provider>
+  );
+};
