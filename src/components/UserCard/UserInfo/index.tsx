@@ -12,8 +12,8 @@ interface IFieldUser<TValue> {
   [key: string]: TValue;
 }
 
+// тут надо над типом подумать
 export default ({ user }: any) => {
-
   const fieldsUser: IFieldUser<string> = {
     bio: '',
     company: 'Организации: ',
@@ -28,7 +28,7 @@ export default ({ user }: any) => {
     <div className="p-d-flex p-flex-column">
       <div className="p-d-flex p-flex-row p-jc-center p-ai-center">
         <h2 className="p-mb-3 p-text-center">{user.login}</h2>
-        <a className="pi pi-link p-ml-2 p-mt-2" href={user.html_url} target={'_blank'}>
+        <a className="pi pi-external-link p-ml-2 p-mt-2" href={user.html_url} target={'_blank'}>
           {' '}
         </a>
       </div>
@@ -47,15 +47,18 @@ export default ({ user }: any) => {
     // console.log(user);
     for (const key in fieldsUser) {
       if (user[key]) {
-        if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1){
-          console.log(user[key].indexOf('http'));
+        if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1) {
+          // console.log(user[key].indexOf('http'));
           fieldsArray.push(
             <li key={key + user.id} className="p-text-bold  p-mb-2">
               {fieldsUser[key]}
-              <i className="p-text-normal"><a target={'_blank'} href={user[key]}>{user[key]}</a></i>
+              <i className="p-text-normal">
+                <a target={'_blank'} href={user[key]}>
+                  {user[key]}
+                </a>
+              </i>
             </li>
           );
-
         } else {
           fieldsArray.push(
             <li key={key + user.id} className="p-text-bold  p-mb-2">
@@ -64,7 +67,6 @@ export default ({ user }: any) => {
             </li>
           );
         }
-
       }
     }
     return fieldsArray.map((field) => field);

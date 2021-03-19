@@ -107,10 +107,24 @@ export default ({ user }: UserCardProps) => {
           >
             ~
           </Column>
-          <Column field="updated_at" header="Последнее обновление" body={dateBodyTemplate} sortable>
+          <Column
+            field="updated_at"
+            header={<i className="pi pi-calendar" style={{ color: 'var(--primary-color)' }}></i>}
+            body={dateBodyTemplate}
+            sortable
+          >
             ~
           </Column>
-          <Column field="stargazers_count" header="Звезды" body={starBodyTemplate} sortable>
+          <Column
+            field="stargazers_count"
+            header={
+              <i className="pi pi-star" style={{ color: 'var(--primary-color)' }}>
+                stars
+              </i>
+            }
+            body={starBodyTemplate}
+            sortable
+          >
             ~
           </Column>
           <Column field="language" header="Основной язык" sortable>
