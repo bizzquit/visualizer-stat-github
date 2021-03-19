@@ -1,13 +1,19 @@
 import React from 'react';
 import { Card } from 'primereact/card';
+import { User } from '../index';
 
 import './style.css';
+
+type UserCardProps = {
+  user: User;
+};
 
 interface IFieldUser<TValue> {
   [key: string]: TValue;
 }
 
 export default ({ user }: any) => {
+
   const fieldsUser: IFieldUser<string> = {
     bio: '',
     company: 'Организации: ',
@@ -41,12 +47,24 @@ export default ({ user }: any) => {
     // console.log(user);
     for (const key in fieldsUser) {
       if (user[key]) {
-        fieldsArray.push(
-          <li key={key + user.id} className="p-text-bold  p-mb-2">
-            {fieldsUser[key]}
-            <i className="p-text-normal">{user[key]}</i>
-          </li>
-        );
+        if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1){
+          console.log(user[key].indexOf('http'));
+          fieldsArray.push(
+            <li key={key + user.id} className="p-text-bold  p-mb-2">
+              {fieldsUser[key]}
+              <i className="p-text-normal"><a target={'_blank'} href={user[key]}>{user[key]}</a></i>
+            </li>
+          );
+
+        } else {
+          fieldsArray.push(
+            <li key={key + user.id} className="p-text-bold  p-mb-2">
+              {fieldsUser[key]}
+              <i className="p-text-normal">{user[key]}</i>
+            </li>
+          );
+        }
+
       }
     }
     return fieldsArray.map((field) => field);

@@ -1,82 +1,131 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { DataTable } from 'primereact/datatable';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Column } from 'primereact/column';
+import classNames from 'classnames';
+import { User } from '../index';
+import Api from '../../../api';
 
-const repos = [
-  {
-    id: 342808038,
-    name: 'react-ts',
-    html_url: 'https://github.com/bizzquit/react-ts',
-    stargazers_count: 150, //stars
-    forks_count: 12, //forks
-    language: 'JavaScript', // https://api.github.com/repos/bizzquit/{name}/languages
-    contributors_url: 'https://api.github.com/repos/bizzquit/react-ts/contributors',
-    created_at: '2021-02-27T08:32:10Z',
-    updated_at: '2021-03-10T11:05:12Z',
-    pushed_at: '2021-03-10T11:05:09Z',
-  },
-  {
-    id: 342808039,
-    name: 'react-ts',
-    html_url: 'https://github.com/bizzquit/react-ts',
-    stargazers_count: 150, //stars
-    forks_count: 12, //forks
-    language: 'JavaScript', // https://api.github.com/repos/bizzquit/{name}/languages
-    contributors_url: 'https://api.github.com/repos/bizzquit/react-ts/contributors',
-    created_at: '2021-02-27T08:32:10Z',
-    updated_at: '2021-03-10T11:05:12Z',
-    pushed_at: '2021-03-10T11:05:09Z',
-  },
-  {
-    id: 342808040,
-    name: 'react-ts',
-    html_url: 'https://github.com/bizzquit/react-ts',
-    stargazers_count: 150, //stars
-    forks_count: 12, //forks
-    language: 'JavaScript', // https://api.github.com/repos/bizzquit/{name}/languages
-    contributors_url: 'https://api.github.com/repos/bizzquit/react-ts/contributors',
-    created_at: '2021-02-27T08:32:10Z',
-    updated_at: '2021-03-10T11:05:12Z',
-    pushed_at: '2021-03-10T11:05:09Z',
-  },
-];
+import './style.css';
 
-export default () => {
-  return (
-    <div className="container p-d-flex p-flex-column" style={{ minWidth: '70%' }}>
-      <h2 className="p-m-0 p-text-center">Список репозиториев</h2>
-      {repos.map((repo) => (
-        <div className="" key={repo.id} style={{ backgroundColor: 'rgba(201, 205, 208, 0.5)' }}>
-          <div className="" style={{ backgroundColor: '#c9cdd0' }}>
-            <a href="">
-              <h5 className="">{repo.name}</h5>
-            </a>
-            <span className="card-text info-field d-block fw-bold">
-              stars:
-              <i className="fw-normal container-fluid">{repo.stargazers_count}</i>
-            </span>
-            <span className="card-text info-field d-block fw-bold">
-              forks:
-              <i className="fw-normal container-fluid">{repo.forks_count}</i>
-            </span>
-            <span className="fw-bold">
-              обновлено: <i className="fw-normal">{repo.updated_at}</i>
-            </span>
-          </div>
-          <div className="card-body">
-            <span className="card-text info-field d-block fw-bold">
-              languages:
-              <i className="fw-normal container-fluid">{repo.language}</i>
-            </span>
-          </div>
-          <div className="card-footer d-flex justify-content-end">
-            <a href="/" className="btn btn-success m-1">
-              clone repo
-            </a>
-            <a href="/" className="btn btn-primary m-1">
-              view repo
-            </a>
-          </div>
-        </div>
-      ))}
+type UserCardProps = {
+  user: User;
+};
+
+interface IRowData<TValue> {
+  [key: string]: TValue;
+}
+
+const api = Api.getInstance();
+
+export default ({ user }: UserCardProps) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const sorting = (data: []) => {
+    const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
+    return sortStars.sort((a: any, b: any) => {
+      const aDate: any = new Date(a.updated_at);
+      const bDate: any = new Date(b.updated_at);
+      return bDate - aDate;
+    });
+  };
+
+  useEffect(() => {
+    api.getPublicReposUser(user.login).then((data) => {
+      const sortData: [] = sorting(data);
+      setLoading(false);
+      setProducts(sortData);
+    });
+  }, [user.login]);
+
+  function formatDate(date: string) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [day, month, year].join('/');
+  }
+
+  const codeBodyTemplate = (rowData: IRowData<string>) => {
+    return (
+      <React.Fragment>
+        <a href={rowData.html_url} target="_blank">
+          {rowData.name}
+        </a>
+      </React.Fragment>
+    );
+  };
+
+  const starBodyTemplate = (rowData: IRowData<number>) => {
+    const starClassName = classNames({
+      outofstock: rowData.stargazers_count === 0,
+      lowstock: rowData.stargazers_count > 0 && rowData.stargazers_count <= 10,
+      instock: rowData.stargazers_count > 10,
+    });
+
+    return <div className={starClassName}>{rowData.stargazers_count}</div>;
+  };
+
+  const dopBodyTemplate = (rowData: IRowData<string>) => {
+    return (
+      <>
+        <Button className="p-m-2 p-jc-center">clone url repo</Button>
+        <Button>view repo</Button>
+      </>
+    );
+  };
+
+  const dateBodyTemplate = (rowData: IRowData<string>) => {
+    return <React.Fragment>{formatDate(rowData.updated_at)}</React.Fragment>;
+  };
+
+  return loading ? (
+    <ProgressSpinner />
+  ) : (
+    <div style={{ width: '100%' }}>
+      <div className="card">
+        <DataTable
+          value={products}
+          rows={10}
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          className="p-datatable-auto-layout p-datatable-flex-scrollable"
+          paginator
+          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          currentPageReportTemplate="с {first} по {last} из {totalRecords}"
+        >
+          <Column
+            field="name"
+            header="Name"
+            body={codeBodyTemplate}
+            filter
+            filterPlaceholder="Поиск по названию"
+            sortable
+          >
+            ~
+          </Column>
+          <Column field="updated_at" header="Последнее обновление" body={dateBodyTemplate} sortable>
+            ~
+          </Column>
+          <Column field="stargazers_count" header="Звезды" body={starBodyTemplate} sortable>
+            ~
+          </Column>
+          <Column field="language" header="Основной язык" sortable>
+            ~
+          </Column>
+          <Column
+            field="Вспомогательное"
+            header=""
+            className="p-ai-center p-jc-center"
+            body={dopBodyTemplate}
+          >
+            ~
+          </Column>
+        </DataTable>
+      </div>
     </div>
   );
 };

@@ -9,9 +9,10 @@ export default connect(
   (state, props) => ({}),
   (dispatch, props) => ({
     onSubmit: (login: string) => {
-      api.fetchUserInfo(login)
-        .then(user => dispatch(setUserInfo(user)))
-        .catch(() => dispatch(setUserInfo(null)))
-    }
+      api
+        .fetchUserInfo(login)
+        .then((user) => dispatch(setUserInfo(user)))
+        .catch(() => dispatch(setUserInfo(null)));
+    },
   })
 )(Navbar);
