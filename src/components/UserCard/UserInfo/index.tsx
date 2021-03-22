@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { User } from '../index';
+import { User } from '../../../interfaces/api-types';
 
 import './style.css';
 

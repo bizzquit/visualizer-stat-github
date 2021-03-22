@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 import classNames from 'classnames';
-import { User } from '../index';
+import { Repository, User } from '../../../interfaces/api-types';
 import Api from '../../../api';
 
 import './style.css';
@@ -20,10 +20,10 @@ interface IRowData<TValue> {
 const api = Api.getInstance();
 
 export default ({ user }: UserCardProps) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([] as Repository[]);
   const [loading, setLoading] = useState(true);
 
-  const sorting = (data: []) => {
+  const sorting = (data: Repository[]) => {
     const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
     return sortStars.sort((a: any, b: any) => {
       const aDate: any = new Date(a.updated_at);
@@ -34,7 +34,7 @@ export default ({ user }: UserCardProps) => {
 
   useEffect(() => {
     api.getPublicReposUser(user.login).then((data) => {
-      const sortData: [] = sorting(data);
+      const sortData: Repository[] = sorting(data);
       setLoading(false);
       setProducts(sortData);
     });
