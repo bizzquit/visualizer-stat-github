@@ -8,6 +8,7 @@ import { Repository, User } from '../../../interfaces/api-types';
 import Api from '../../../api';
 
 import './style.css';
+import UserReposStat from '../UserReposStat';
 
 type UserCardProps = {
   user: User;
@@ -21,6 +22,7 @@ const api = Api.getInstance();
 
 export default ({ user }: UserCardProps) => {
   const [products, setProducts] = useState([] as Repository[]);
+  const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
 
   const sorting = (data: Repository[]) => {
@@ -37,6 +39,14 @@ export default ({ user }: UserCardProps) => {
       const sortData: Repository[] = sorting(data);
       setLoading(false);
       setProducts(sortData);
+
+      const stat = sortData.reduce((acc, repo) => {
+        const language = repo.language || 'Other';
+        acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
+
+        return acc;
+      }, {} as { [key: string]: number });
+      setReposStat(stat);
     });
   }, [user.login]);
 
@@ -87,6 +97,10 @@ export default ({ user }: UserCardProps) => {
     <ProgressSpinner />
   ) : (
     <div style={{ width: '100%' }}>
+      <div className="stat-wrapper">
+        <UserReposStat data={ reposStat } />
+      </div>
+
       <div className="card">
         <DataTable
           value={products}
