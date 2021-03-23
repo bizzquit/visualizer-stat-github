@@ -8,6 +8,7 @@ import { User } from '../index';
 import Api from '../../../api';
 
 import './style.css';
+import { EyeIcon, GitPullRequestIcon, PeopleIcon } from '@primer/octicons-react';
 
 type UserCardProps = {
   user: User;
@@ -79,6 +80,19 @@ export default ({ user }: UserCardProps) => {
     );
   };
 
+  const addInfoTemplate = (rowData: IRowData<string>) => {
+    return (
+      <>
+        <div className="add-data-row">
+          <GitPullRequestIcon size={16} /><span className="add-data-info">{rowData.forks_count}</span>
+        </div>
+        <div>
+          <EyeIcon size={16} /><span className="add-data-info">{rowData.watchers_count}</span>
+        </div>
+      </>
+    )
+  };
+
   const dateBodyTemplate = (rowData: IRowData<string>) => {
     return <React.Fragment>{formatDate(rowData.updated_at)}</React.Fragment>;
   };
@@ -128,6 +142,12 @@ export default ({ user }: UserCardProps) => {
             ~
           </Column>
           <Column field="language" header="Основной язык" sortable>
+            ~
+          </Column>
+          <Column
+            field="Дополнительное"
+            body={addInfoTemplate}
+          >
             ~
           </Column>
           <Column
