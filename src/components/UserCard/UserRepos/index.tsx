@@ -86,7 +86,7 @@ export default ({ user }: UserCardProps) => {
         <div className="add-data-row">
           <GitPullRequestIcon size={16} /><span className="add-data-info">{rowData.forks_count}</span>
         </div>
-        <div>
+        <div className="add-data-row">
           <EyeIcon size={16} /><span className="add-data-info">{rowData.watchers_count}</span>
         </div>
       </>
