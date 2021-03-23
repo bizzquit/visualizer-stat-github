@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/core";
+import { Repository, User } from '../interfaces/api-types';
 const octokit = new Octokit({ auth: '1dc6e83184b380e6172ccded0c522341fcdac7ca' });
 
 type Params = {
@@ -17,11 +18,11 @@ export default class Api {
     return this.api;
   }
 
-  fetchUserInfo(login: string) {
+  fetchUserInfo(login: string): Promise<User> {
     return this.fetchData(`GET /users/${login}`);
   }
 
-  getPublicReposUser(login:string){
+  getPublicReposUser(login:string): Promise<Repository[]> {
     return this.fetchData(`GET /users/${login}/repos`,{type:'public', per_page:100})
   }
 
