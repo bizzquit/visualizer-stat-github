@@ -3,7 +3,7 @@ import UserRepos from './UserRepos';
 import UserInfo from './UserInfo';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
-
+import { User } from '../../interfaces/api-types';
 import './styles.css';
 
 type UserCardProps = {
@@ -39,38 +39,3 @@ export default ({ user }: UserCardProps) => {
   return <>{showUserData()}</>;
 };
 
-export interface User {
-  avatar_url: string;
-  bio: string;
-  blog: string;
-  company: string;
-  created_at: string;
-  email: string;
-  events_url: string;
-  followers: number;
-  followers_url: string;
-  following: number;
-  following_url: string;
-  gists_url: string;
-  gravatar_id: string;
-  hireable: null;
-  html_url: string;
-  id: number;
-  loadStatus: LoadStatus;
-  location: null;
-  login: string;
-  name: string;
-  node_id: string;
-  organizations_url: string;
-  public_gists: number;
-  public_repos: number;
-  received_events_url: string;
-  repos_url: string;
-  site_admin: boolean;
-  starred_url: string;
-  subscriptions_url: string;
-  twitter_username: string;
-  type: string;
-  updated_at: string;
-  url: string;
-}

@@ -3,12 +3,17 @@ import { DataTable } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
+import { EyeIcon, GitPullRequestIcon, PeopleIcon } from '@primer/octicons-react';
 import classNames from 'classnames';
-import { User } from '../index';
+import { Repository, User } from '../../../interfaces/api-types';
 import Api from '../../../api';
 
 import './style.css';
-import { EyeIcon, GitPullRequestIcon, PeopleIcon } from '@primer/octicons-react';
+
+
+
+import UserReposStat from '../UserReposStat';
+
 
 type UserCardProps = {
   user: User;
@@ -21,10 +26,11 @@ interface IRowData<TValue> {
 const api = Api.getInstance();
 
 export default ({ user }: UserCardProps) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([] as Repository[]);
+  const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
 
-  const sorting = (data: []) => {
+  const sorting = (data: Repository[]) => {
     const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
     return sortStars.sort((a: any, b: any) => {
       const aDate: any = new Date(a.updated_at);
@@ -35,9 +41,17 @@ export default ({ user }: UserCardProps) => {
 
   useEffect(() => {
     api.getPublicReposUser(user.login).then((data) => {
-      const sortData: [] = sorting(data);
+      const sortData: Repository[] = sorting(data);
       setLoading(false);
       setProducts(sortData);
+
+      const stat = sortData.reduce((acc, repo) => {
+        const language = repo.language || 'Other';
+        acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
+
+        return acc;
+      }, {} as { [key: string]: number });
+      setReposStat(stat);
     });
   }, [user.login]);
 
@@ -101,6 +115,10 @@ export default ({ user }: UserCardProps) => {
     <ProgressSpinner />
   ) : (
     <div style={{ width: '100%' }}>
+      <div className="stat-wrapper">
+        <UserReposStat data={ reposStat } />
+      </div>
+
       <div className="card">
         <DataTable
           value={products}
