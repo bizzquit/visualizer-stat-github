@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
-import { EyeIcon, GitPullRequestIcon, PeopleIcon } from '@primer/octicons-react';
+import { Toast } from 'primereact/toast';
+import { EyeIcon, GitPullRequestIcon, CopyIcon } from '@primer/octicons-react';
 import classNames from 'classnames';
 import { Repository, User } from '../../../interfaces/api-types';
 import Api from '../../../api';
-
-import './style.css';
-
-
-
 import UserReposStat from '../UserReposStat';
 
+import './style.css';
 
 type UserCardProps = {
   user: User;
@@ -29,6 +26,7 @@ export default ({ user }: UserCardProps) => {
   const [products, setProducts] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
+  const toast: any = useRef(null);
 
   const sorting = (data: Repository[]) => {
     const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -56,13 +54,14 @@ export default ({ user }: UserCardProps) => {
   }, [user.login]);
 
   function formatDate(date: string) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    return [day, month, year].join('/');
+    const format: any = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    return new Intl.DateTimeFormat('ru', format).format(new Date(date));
   }
 
   const codeBodyTemplate = (rowData: IRowData<string>) => {
@@ -86,10 +85,30 @@ export default ({ user }: UserCardProps) => {
   };
 
   const dopBodyTemplate = (rowData: IRowData<string>) => {
+    const copyRepo = () => {
+      navigator.clipboard
+        .writeText(`${rowData.git_url}`)
+        .then(() => {
+          toast.current.show({
+            severity: 'success',
+            summary: 'Вы скопировали репозиторий',
+            detail: `${rowData.git_url}`,
+            life: 3000,
+          });
+        })
+        .catch((err) => {
+          console.log('Что-то пошло не так...', err);
+        });
+    };
     return (
       <>
-        <Button className="p-m-2 p-jc-center">clone url repo</Button>
-        <Button>view repo</Button>
+        <Button
+          user={rowData.git_url}
+          className="p-p-1 p-jc-center  p-button-text"
+          onClick={copyRepo}
+        >
+          <CopyIcon size={24} />
+        </Button>
       </>
     );
   };
@@ -98,13 +117,15 @@ export default ({ user }: UserCardProps) => {
     return (
       <>
         <div className="add-data-row">
-          <GitPullRequestIcon size={16} /><span className="add-data-info">{rowData.forks_count}</span>
+          <GitPullRequestIcon size={16} />
+          <span className="add-data-info">{rowData.forks_count}</span>
         </div>
         <div className="add-data-row">
-          <EyeIcon size={16} /><span className="add-data-info">{rowData.watchers_count}</span>
+          <EyeIcon size={16} />
+          <span className="add-data-info">{rowData.watchers_count}</span>
         </div>
       </>
-    )
+    );
   };
 
   const dateBodyTemplate = (rowData: IRowData<string>) => {
@@ -116,9 +137,9 @@ export default ({ user }: UserCardProps) => {
   ) : (
     <div style={{ width: '100%' }}>
       <div className="stat-wrapper">
-        <UserReposStat data={ reposStat } />
+        <UserReposStat data={reposStat} />
       </div>
-
+      <Toast ref={toast}></Toast>
       <div className="card">
         <DataTable
           value={products}
@@ -162,10 +183,7 @@ export default ({ user }: UserCardProps) => {
           <Column field="language" header="Основной язык" sortable>
             ~
           </Column>
-          <Column
-            field="Дополнительное"
-            body={addInfoTemplate}
-          >
+          <Column field="Дополнительное" body={addInfoTemplate}>
             ~
           </Column>
           <Column
