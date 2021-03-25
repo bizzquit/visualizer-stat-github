@@ -26,7 +26,7 @@ export default ({ user }: UserCardProps) => {
   const [products, setProducts] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
-  const toast: any = useRef(null);
+  const toast: any = useRef<Toast>(null);
 
   const sorting = (data: Repository[]) => {
     const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -89,7 +89,7 @@ export default ({ user }: UserCardProps) => {
       navigator.clipboard
         .writeText(`${rowData.git_url}`)
         .then(() => {
-          toast.current.show({
+          toast.current?.show({
             severity: 'success',
             summary: 'Вы скопировали репозиторий',
             detail: `${rowData.git_url}`,
