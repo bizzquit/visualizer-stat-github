@@ -1,11 +1,11 @@
-import { Octokit } from "@octokit/core";
+import { Octokit } from '@octokit/core';
 import { Repository, User } from '../interfaces/api-types';
 const octokit = new Octokit({ auth: '1dc6e83184b380e6172ccded0c522341fcdac7ca' });
 
 type Params = {
-  type?:string,
-  per_page?:number
-}
+  type?: string;
+  per_page?: number;
+};
 
 export default class Api {
   private constructor() {}
@@ -22,12 +22,12 @@ export default class Api {
     return this.fetchData(`GET /users/${login}`);
   }
 
-  getPublicReposUser(login:string): Promise<Repository[]> {
-    return this.fetchData(`GET /users/${login}/repos`,{type:'public', per_page:100})
+  getPublicReposUser(login: string): Promise<Repository[]> {
+    return this.fetchData(`GET /users/${login}/repos`, { type: 'public', per_page: 100 });
   }
 
-  private fetchData(url: string, params?:Params) {
-    return octokit.request(url,params).then((res) => {
+  private fetchData(url: string, params?: Params) {
+    return octokit.request(url, params).then((res) => {
       if ([404, 500].includes(res.status)) {
         throw res;
       } else {

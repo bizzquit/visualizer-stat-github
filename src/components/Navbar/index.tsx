@@ -6,7 +6,7 @@ type NavbarProps = {
   onSubmit: (value: string) => void;
 };
 
-export default ({ onSubmit }: NavbarProps) => {
+const Navbar: React.FC<NavbarProps> = ({ onSubmit }) => {
   const leftContents = <Search onSubmit={onSubmit} />;
 
   return (
@@ -19,3 +19,5 @@ export default ({ onSubmit }: NavbarProps) => {
     />
   );
 };
+
+export default Navbar;

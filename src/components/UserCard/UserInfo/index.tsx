@@ -1,19 +1,19 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { User } from '../../../interfaces/api-types';
+// import { User } from '../../../interfaces/api-types';
 
 import './style.css';
 
-type UserCardProps = {
+/* type UserCardProps = {
   user: User;
-};
+}; */
 
 interface IFieldUser<TValue> {
   [key: string]: TValue;
 }
 
 // тут надо над типом подумать
-export default ({ user }: any) => {
+const UserInfo: React.FC<any> = ({ user }) => {
   const fieldsUser: IFieldUser<string> = {
     bio: '',
     company: 'Организации: ',
@@ -87,3 +87,5 @@ export default ({ user }: any) => {
     </Card>
   );
 };
+
+export default UserInfo;

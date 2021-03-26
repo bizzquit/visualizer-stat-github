@@ -6,8 +6,8 @@ import { setUserInfo } from '../actionCreator';
 const api = Api.getInstance();
 
 export default connect(
-  (state, props) => ({}),
-  (dispatch, props) => ({
+  () => ({}),
+  (dispatch) => ({
     onSubmit: (login: string) => {
       api
         .fetchUserInfo(login)

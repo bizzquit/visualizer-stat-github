@@ -10,7 +10,7 @@ type UserCardProps = {
   user: User;
 };
 
-export default ({ user }: UserCardProps) => {
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
   function showUserData() {
     switch (user.loadStatus) {
       case LoadStatus.Success:
@@ -39,3 +39,4 @@ export default ({ user }: UserCardProps) => {
   return <>{showUserData()}</>;
 };
 
+export default UserCard;

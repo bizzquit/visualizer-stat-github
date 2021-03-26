@@ -1,25 +1,26 @@
 import React from 'react';
-
-import './App.css';
-import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from '../../reducers';
 import Navbar from '../../containers/Navbar';
 import UserCard from '../../containers/UserCard';
+import './App.css';
+import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 
 const store = createStore(rootReducer);
 
-export default () => {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Navbar />
-      <div className="p-d-flex container">
+      <div className="p-d-flex container layout">
         <UserCard />
       </div>
     </Provider>
   );
 };
+
+export default App;

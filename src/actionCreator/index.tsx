@@ -1,7 +1,7 @@
-import * as actionTypes from '../actionTypes/index';
+import { SET_USER_INFO_RESULT } from '../actionTypes';
 import { User } from '../interfaces/api-types';
 
 export const setUserInfo = (user: User | null) => ({
-  type: actionTypes.SET_USER_INFO_RESULT,
+  type: SET_USER_INFO_RESULT,
   user,
 });

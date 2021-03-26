@@ -22,11 +22,11 @@ interface IRowData<TValue> {
 
 const api = Api.getInstance();
 
-export default ({ user }: UserCardProps) => {
+const UserRepos: React.FC<UserCardProps> = ({ user }) => {
   const [products, setProducts] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
-  const toast: any = useRef<Toast>(null);
+  const toast = useRef<Toast>(null);
 
   const sorting = (data: Repository[]) => {
     const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -157,17 +157,13 @@ export default ({ user }: UserCardProps) => {
             filter
             filterPlaceholder="Поиск по названию"
             sortable
-          >
-            ~
-          </Column>
+          />
           <Column
             field="updated_at"
             header={<i className="pi pi-calendar" style={{ color: 'var(--primary-color)' }}></i>}
             body={dateBodyTemplate}
             sortable
-          >
-            ~
-          </Column>
+          />
           <Column
             field="stargazers_count"
             header={
@@ -177,25 +173,19 @@ export default ({ user }: UserCardProps) => {
             }
             body={starBodyTemplate}
             sortable
-          >
-            ~
-          </Column>
-          <Column field="language" header="Основной язык" sortable>
-            ~
-          </Column>
-          <Column field="Дополнительное" body={addInfoTemplate}>
-            ~
-          </Column>
+          />
+          <Column field="language" header="Основной язык" sortable />
+          <Column field="Дополнительное" body={addInfoTemplate} />
           <Column
             field="Вспомогательное"
             header=""
             className="p-ai-center p-jc-center"
             body={dopBodyTemplate}
-          >
-            ~
-          </Column>
+          />
         </DataTable>
       </div>
     </div>
   );
 };
+
+export default UserRepos;

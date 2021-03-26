@@ -6,9 +6,22 @@ type SearchProps = {
   onSubmit: (value: string) => void;
 };
 
-export default ({ onSubmit }: SearchProps) => {
+const Search: React.FC<SearchProps> = ({ onSubmit }) => {
   const [value, setValue] = useState('');
 
+  const onEnterKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit(value);
+    }
+  };
+
+  const onHandlerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setValue(event.target.value);
+  };
+
+  const onHandlerClick = () => {
+    onSubmit(value);
+  };
   return (
     <div>
       <InputText
@@ -16,12 +29,12 @@ export default ({ onSubmit }: SearchProps) => {
         className="p-ml-5"
         placeholder="введите логин..."
         aria-label="Search"
-        onChange={(event) => setValue(event.currentTarget.value)}
-        onKeyPress={(event) => {
-          return event.code === 'Enter' ? onSubmit(value) : null;
-        }}
+        onChange={onHandlerChange}
+        onKeyPress={onEnterKeyDown}
       />
-      <Button className="p-ml-2" label="Искать" onClick={() => onSubmit(value)} />
+      <Button className="p-ml-2" label="Искать" onClick={onHandlerClick} />
     </div>
   );
 };
+
+export default Search;

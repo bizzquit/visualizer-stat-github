@@ -6,12 +6,13 @@ import { LoadStatus } from '../constants/Status';
 const defaultUserInfo = {
   loadStatus: LoadStatus.None,
 };
+
 const userInfoReducer = createReducer(defaultUserInfo, {
   [actionTypes.SET_USER_INFO_RESULT]: setUserInfoResult,
   [actionTypes.SET_USER_INFO_REQUEST]: setUserInfoRequest,
 });
 
-function setUserInfoResult(state: any, action: AnyAction) {
+function setUserInfoResult(_state: any, action: AnyAction) {
   if (action.user) {
     return {
       ...action.user,
@@ -21,7 +22,7 @@ function setUserInfoResult(state: any, action: AnyAction) {
 
   return { loadStatus: LoadStatus.Error };
 }
-function setUserInfoRequest(state: any, action: AnyAction) {
+function setUserInfoRequest(state: any, _action: AnyAction) {
   return {
     ...state,
     loadStatus: LoadStatus.Loading,
