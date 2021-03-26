@@ -1,22 +1,14 @@
 import React from 'react';
 import Search from './Search';
-import { Toolbar } from 'primereact/toolbar';
+import { SearchCardProps } from '../../interfaces/types';
 
-type NavbarProps = {
-  onSubmit: (value: string) => void;
-};
+import './styles.css';
 
-const Navbar: React.FC<NavbarProps> = ({ onSubmit }) => {
-  const leftContents = <Search onSubmit={onSubmit} />;
-
+const Navbar: React.FC<SearchCardProps> = ({ onSubmit }) => {
   return (
-    <Toolbar
-      left={leftContents}
-      style={{
-        backgroundColor: 'var(--bluegray-300)',
-        borderBottom: '1px solid var(--bluegray-500)',
-      }}
-    />
+    <div className="p-d-flex p-ai-center toolbar">
+      <Search onSubmit={onSubmit} />
+    </div>
   );
 };
 

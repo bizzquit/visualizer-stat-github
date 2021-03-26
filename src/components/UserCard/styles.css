@@ -5,3 +5,8 @@
 .error-block {
     padding: 40px 0;
 }
+
+.avatar {
+    width:60% !important;
+    border: 1px solid var(--bluegray-500);
+}

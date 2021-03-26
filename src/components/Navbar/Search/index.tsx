@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { SearchCardProps } from '../../../interfaces/types';
 
-type SearchProps = {
-  onSubmit: (value: string) => void;
-};
+import './styles.css';
 
-const Search: React.FC<SearchProps> = ({ onSubmit }) => {
+const Search: React.FC<SearchCardProps> = ({ onSubmit }) => {
   const [value, setValue] = useState('');
 
   const onEnterKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -22,18 +21,19 @@ const Search: React.FC<SearchProps> = ({ onSubmit }) => {
   const onHandlerClick = () => {
     onSubmit(value);
   };
+
   return (
-    <div>
+    <React.Fragment>
       <InputText
         type="search"
-        className="p-ml-5"
+        className="p-ml-5 input-search"
         placeholder="введите логин..."
         aria-label="Search"
         onChange={onHandlerChange}
         onKeyPress={onEnterKeyDown}
       />
       <Button className="p-ml-2" label="Искать" onClick={onHandlerClick} />
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -1,0 +1,7 @@
+.toolbar {
+    height:70px;
+    border-radius: 0;
+    background-color: var(--blue-100);
+    border-bottom: 1px solid var(--bluegray-500);
+}
+

@@ -1,27 +1,27 @@
 .p-datatable {
     width: 100%;
+    font-weight: 700;
 }
 
-.p-datatable .outofstock {
+.stars {
     font-weight: 700;
+}
+
+.outStock {
     color: #FF5252;
-    text-decoration: line-through;
 }
 
-.p-datatable .lowstock {
-    font-weight: 700;
+.lowStock {
     color: #FFA726;
 }
 
-.p-datatable .instock {
-    font-weight: 700;
+.inStock {
     color: #66BB6A;
 }
 
 .p-datatable .row-accessories {
     background-color: rgba(0, 0, 0, 0.15) !important;
 }
-
 
 .add-data-row {
     display: flex;
@@ -30,5 +30,10 @@
 
 .stat-wrapper {
     margin: -20px 0 20px;
-    max-width: 700px;
+    width:60%;
+    min-width:450px;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    padding: 3px !important;
 }

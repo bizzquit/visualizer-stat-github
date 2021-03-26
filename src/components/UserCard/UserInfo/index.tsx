@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'primereact/card';
 // import { User } from '../../../interfaces/api-types';
 
-import './style.css';
+import './styles.css';
 
 /* type UserCardProps = {
   user: User;
@@ -34,9 +34,8 @@ const UserInfo: React.FC<any> = ({ user }) => {
       </div>
       <img
         src={user.avatar_url}
-        className="p-avatar-circle avatar p-m-auto p-p-1"
+        className="p-avatar-circle p-m-auto p-p-1 avatar"
         alt="avatar user"
-        style={{ width: '60%', border: '1px solid var(--bluegray-500)' }}
       />
     </div>
   );
@@ -48,7 +47,6 @@ const UserInfo: React.FC<any> = ({ user }) => {
     for (const key in fieldsUser) {
       if (user[key]) {
         if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1) {
-          // console.log(user[key].indexOf('http'));
           fieldsArray.push(
             <li key={key + user.id} className="p-text-bold  p-mb-2">
               {fieldsUser[key]}
@@ -76,11 +74,8 @@ const UserInfo: React.FC<any> = ({ user }) => {
     <Card
       title={user.name}
       header={headerContext}
-      style={{
-        backgroundColor: 'var(--bluegray-200)',
-        border: '1px solid var(--bluegray-500)',
-      }}
-      className="p-p-2 p-mr-3"
+      className="p-d-flex p-flex-column p-p-2 p-mr-3 card-user"
+      style={{ backgroundColor: 'var(--blue-100)' }}
     >
       <hr className="p-m-0" style={{ border: '1px solid var(--bluegray-500)' }} />
       <ul className="list-fields">{renderDiff()}</ul>

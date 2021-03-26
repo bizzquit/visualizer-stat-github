@@ -4,6 +4,9 @@
   flex-direction: column;
 }
 
-.layout {
-  flex-grow: 1;
+.container {
+  flex-grow: 0;
+}
+.information {
+  width:100%;
 }
