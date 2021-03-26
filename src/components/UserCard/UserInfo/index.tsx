@@ -43,7 +43,6 @@ const UserInfo: React.FC<any> = ({ user }) => {
   const fieldsArray: JSX.Element[] = [];
 
   const renderDiff = () => {
-    // console.log(user);
     for (const key in fieldsUser) {
       if (user[key]) {
         if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1) {

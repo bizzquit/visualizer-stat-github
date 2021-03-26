@@ -19,14 +19,18 @@ export default class Api {
   }
 
   fetchUserInfo(login: string): Promise<User> {
-    return this.fetchData(`GET /users/${login}`);
+    return Api.fetchData(`GET /users/${login}`);
   }
 
-  getPublicReposUser(login: string): Promise<Repository[]> {
-    return this.fetchData(`GET /users/${login}/repos`, { type: 'public', per_page: 100 });
+  getUserPublicRepos(
+    login: string,
+    type: string = 'public',
+    per_page: number = 100
+  ): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/repos`, { type, per_page });
   }
 
-  private fetchData(url: string, params?: Params) {
+  private static fetchData(url: string, params?: Params) {
     return octokit.request(url, params).then((res) => {
       if ([404, 500].includes(res.status)) {
         throw res;

@@ -38,7 +38,7 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
   const toast = useRef<Toast>(null);
 
   useEffect(() => {
-    api.getPublicReposUser(user.login).then((data) => {
+    api.getUserPublicRepos(user.login).then((data) => {
       const sortData: Repository[] = sorting(data);
       setLoading(false);
       setRepos(sortData);
