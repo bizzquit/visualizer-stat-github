@@ -1,29 +1,59 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-// import { User } from '../../../interfaces/api-types';
+// import {OrganizationIcon, LocationIcon, MailIcon,PeopleIcon,LinkIcon} from '@primer/octicons-react'
+import { User } from '../../../interfaces/api-types';
 
 import './styles.css';
 
-/* type UserCardProps = {
+type UserCardProps = {
   user: User;
-}; */
+};
 
 interface IFieldUser<TValue> {
   [key: string]: TValue;
 }
 
-// тут надо над типом подумать
-const UserInfo: React.FC<any> = ({ user }) => {
-  const fieldsUser: IFieldUser<string> = {
-    bio: '',
-    company: 'Организации: ',
-    followers: 'Подписчики: ',
-    following: 'Подписки: ',
-    location: 'Нахождение: ',
-    blog: 'Блог: ',
-    email: 'email: ',
-  };
+const fieldsUser: IFieldUser<string> = {
+  bio: '',
+  company: 'Организации: ',
+  followers: 'Подписчики: ',
+  following: 'Подписки: ',
+  location: 'Нахождение: ',
+  blog: 'Блог: ',
+  email: 'email: ',
+};
 
+const fieldsArray: JSX.Element[] = [];
+
+/*renderDiff нужно переделать any - уберу*/
+const renderDiff = (user: any) => {
+  for (const key in user) {
+    if (fieldsUser[key]) {
+      if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1) {
+        fieldsArray.push(
+          <li key={key + user.id} className="p-text-bold  p-mb-2">
+            {fieldsUser[key]}
+            <i className="p-text-normal">
+              <a target={'_blank'} href={user[key]}>
+                {user[key]}
+              </a>
+            </i>
+          </li>
+        );
+      } else {
+        fieldsArray.push(
+          <li key={key + user.id} className="p-text-bold  p-mb-2">
+            {fieldsUser[key]}
+            <i className="p-text-normal">{user[key]}</i>
+          </li>
+        );
+      }
+    }
+  }
+  return fieldsArray.map((field) => field);
+};
+
+const UserInfo: React.FC<UserCardProps> = ({ user }) => {
   const headerContext = (
     <div className="p-d-flex p-flex-column">
       <div className="p-d-flex p-flex-row p-jc-center p-ai-center">
@@ -40,35 +70,6 @@ const UserInfo: React.FC<any> = ({ user }) => {
     </div>
   );
 
-  const fieldsArray: JSX.Element[] = [];
-
-  const renderDiff = () => {
-    for (const key in fieldsUser) {
-      if (user[key]) {
-        if (typeof user[key] === 'string' && user[key].indexOf('http') !== -1) {
-          fieldsArray.push(
-            <li key={key + user.id} className="p-text-bold  p-mb-2">
-              {fieldsUser[key]}
-              <i className="p-text-normal">
-                <a target={'_blank'} href={user[key]}>
-                  {user[key]}
-                </a>
-              </i>
-            </li>
-          );
-        } else {
-          fieldsArray.push(
-            <li key={key + user.id} className="p-text-bold  p-mb-2">
-              {fieldsUser[key]}
-              <i className="p-text-normal">{user[key]}</i>
-            </li>
-          );
-        }
-      }
-    }
-    return fieldsArray.map((field) => field);
-  };
-
   return (
     <Card
       title={user.name}
@@ -77,7 +78,7 @@ const UserInfo: React.FC<any> = ({ user }) => {
       style={{ backgroundColor: 'var(--blue-100)' }}
     >
       <hr className="p-m-0" style={{ border: '1px solid var(--bluegray-500)' }} />
-      <ul className="list-fields">{renderDiff()}</ul>
+      <ul className="list-fields">{renderDiff(user)}</ul>
     </Card>
   );
 };
