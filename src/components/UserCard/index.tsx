@@ -3,12 +3,8 @@ import UserRepos from './UserRepos';
 import UserInfo from './UserInfo';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { User } from '../../interfaces/api-types';
+import { UserCardProps } from '../../interfaces/types';
 import './styles.css';
-
-type UserCardProps = {
-  user: User;
-};
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (

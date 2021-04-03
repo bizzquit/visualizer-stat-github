@@ -32,7 +32,7 @@ const sorting = (data: Repository[]) => {
 };
 
 const UserRepos: React.FC<UserCardProps> = ({ user }) => {
-  const [repos, setRepos] = useState([] as Repository[]);
+  const [repos, setRepos] = useState<Repository[]>([]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const [loading, setLoading] = useState(true);
   const toast = useRef<Toast>(null);
