@@ -18,7 +18,10 @@ import { LoadStatus } from '../../../constants/Status';
 
 type UserCardProps = {
   repositoryData: { data: Repository[], loadStatus: LoadStatus };
+  onPage: (e: PaginationEvent) => void;
 };
+
+export type PaginationEvent = { first: number, rows: number };
 
 const sorting = (data: Repository[]) => {
   const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -29,10 +32,12 @@ const sorting = (data: Repository[]) => {
   });
 };
 
-const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
+const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const toast = useRef<Toast>(null);
+  const [first, setFirst] = useState(0);
+  let firstLoad = useRef(false);
 
   useEffect(() => {
     const sortData: Repository[] = sorting(repositoryData.data);
@@ -45,7 +50,17 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
       return acc;
     }, {} as { [key: string]: number });
     setReposStat(stat);
+
+    if (!firstLoad.current && repositoryData.loadStatus === LoadStatus.Success) {
+      firstLoad.current = true;
+      onPage({ first: 0, rows: 10 });
+    }
   }, [repositoryData]);
+
+  function setNextPage(e: PaginationEvent) {
+    setFirst(e.first);
+    onPage(e);
+  }
 
   const OtherBodyTemplate: React.FC<IRowData<string>> = (rowData) => {
     const copyRepo = () => {
@@ -89,6 +104,8 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
           value={repos}
           rows={10}
           rowsPerPageOptions={[5, 10, 20, 50]}
+          first={first}
+          onPage={setNextPage}
           className="p-datatable-auto-layout p-datatable-flex-scrollable"
           paginator
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"

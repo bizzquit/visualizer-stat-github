@@ -37,3 +37,12 @@
 .p-datatable .p-datatable-tbody > tr > td {
     padding: 3px !important;
 }
+
+.add-data-info {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.spinner-row {
+    height: 14px;
+}

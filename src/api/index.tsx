@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/core';
-import { Repository, User } from '../interfaces/api-types';
+import { Contributor, Repository, User } from '../interfaces/api-types';
 const octokit = new Octokit({ auth: '1dc6e83184b380e6172ccded0c522341fcdac7ca' });
 
 type Params = {
@@ -28,6 +28,10 @@ export default class Api {
     per_page: number = 100
   ): Promise<Repository[]> {
     return Api.fetchData(`GET /users/${login}/repos`, { type, per_page });
+  }
+
+  getRepoContributors(login: string, repo: string): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/contributors`);
   }
 
   private static fetchData(url: string, params?: Params) {
