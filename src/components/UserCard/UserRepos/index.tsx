@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { CopyIcon } from '@primer/octicons-react';
@@ -18,7 +17,11 @@ import { LoadStatus } from '../../../constants/Status';
 
 type UserCardProps = {
   repositoryData: { data: Repository[], loadStatus: LoadStatus };
+  totalRows: number;
+  onPage: (e: PaginationEvent) => void;
 };
+
+export type PaginationEvent = { first: number, page: number, pageCount: number, rows: number };
 
 const sorting = (data: Repository[]) => {
   const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -29,10 +32,11 @@ const sorting = (data: Repository[]) => {
   });
 };
 
-const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
+const UserRepos: React.FC<UserCardProps> = ({ repositoryData, totalRows, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const toast = useRef<Toast>(null);
+  const [first, setFirst] = useState(0);
 
   useEffect(() => {
     const sortData: Repository[] = sorting(repositoryData.data);
@@ -46,6 +50,11 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
     }, {} as { [key: string]: number });
     setReposStat(stat);
   }, [repositoryData]);
+
+  function setNextPage(e: PaginationEvent) {
+    setFirst(e.first);
+    onPage(e);
+  }
 
   const OtherBodyTemplate: React.FC<IRowData<string>> = (rowData) => {
     const copyRepo = () => {
@@ -76,9 +85,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
     );
   };
 
-  return repositoryData.loadStatus === LoadStatus.Loading ? (
-    <ProgressSpinner />
-  ) : (
+  return (
     <div style={{ width: '100%' }}>
       <div className="stat-wrapper">
         <UserReposStat data={reposStat} />
@@ -86,13 +93,18 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
       <Toast ref={toast} />
       <div className="card">
         <DataTable
+          lazy
           value={repos}
           rows={10}
+          first={first}
           rowsPerPageOptions={[5, 10, 20, 50]}
+          totalRecords={totalRows}
           className="p-datatable-auto-layout p-datatable-flex-scrollable"
           paginator
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="с {first} по {last} из {totalRecords}"
+          onPage={setNextPage}
+          loading={repositoryData.loadStatus === LoadStatus.Loading}
         >
           <Column
             field="name"
