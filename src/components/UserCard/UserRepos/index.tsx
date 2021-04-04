@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { CopyIcon } from '@primer/octicons-react';
 import { Toast } from 'primereact/toast';
-import { Repository, User } from '../../../interfaces/api-types';
-import Api from '../../../api';
+import { Repository } from '../../../interfaces/api-types';
 import { IRowData } from '../../../interfaces/types';
 import UserReposStat from '../UserReposStat';
 import ColumnNameRepoTemplate from './ColumnNameRepoTemplate';
@@ -15,12 +14,11 @@ import ColumnInfoTemplate from './ColumnInfoTemplate';
 import ColumnDateTemplate from './ColumnDateTemplate';
 
 import './styles.css';
+import { LoadStatus } from '../../../constants/Status';
 
 type UserCardProps = {
-  user: User;
+  repositoryData: { data: Repository[], loadStatus: LoadStatus };
 };
-
-const api = Api.getInstance();
 
 const sorting = (data: Repository[]) => {
   const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -31,27 +29,23 @@ const sorting = (data: Repository[]) => {
   });
 };
 
-const UserRepos: React.FC<UserCardProps> = ({ user }) => {
+const UserRepos: React.FC<UserCardProps> = ({ repositoryData }) => {
   const [repos, setRepos] = useState([] as Repository[]);
   const [reposStat, setReposStat] = useState({} as { [key: string]: number });
-  const [loading, setLoading] = useState(true);
   const toast = useRef<Toast>(null);
 
   useEffect(() => {
-    api.getUserPublicRepos(user.login).then((data) => {
-      const sortData: Repository[] = sorting(data);
-      setLoading(false);
-      setRepos(sortData);
+    const sortData: Repository[] = sorting(repositoryData.data);
+    setRepos(sortData);
 
-      const stat = sortData.reduce((acc, repo) => {
-        const language = repo.language || 'Other';
-        acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
+    const stat = sortData.reduce((acc, repo) => {
+      const language = repo.language || 'Other';
+      acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
 
-        return acc;
-      }, {} as { [key: string]: number });
-      setReposStat(stat);
-    });
-  }, [user.login]);
+      return acc;
+    }, {} as { [key: string]: number });
+    setReposStat(stat);
+  }, [repositoryData]);
 
   const OtherBodyTemplate: React.FC<IRowData<string>> = (rowData) => {
     const copyRepo = () => {
@@ -82,7 +76,7 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
     );
   };
 
-  return loading ? (
+  return repositoryData.loadStatus === LoadStatus.Loading ? (
     <ProgressSpinner />
   ) : (
     <div style={{ width: '100%' }}>

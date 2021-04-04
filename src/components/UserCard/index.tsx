@@ -1,6 +1,6 @@
 import React from 'react';
-import UserRepos from './UserRepos';
 import UserInfo from './UserInfo';
+import UserRepos from '../../containers/UserRepos';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { User } from '../../interfaces/api-types';
@@ -19,7 +19,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             return (
               <div className="p-d-lg-flex p-d-sm-inline p-d-md-inline p-justify-between p-m-3 information">
                 <UserInfo user={user} />
-                <UserRepos user={user} />
+                <UserRepos />
               </div>
             );
           case LoadStatus.Error:
