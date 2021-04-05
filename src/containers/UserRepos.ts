@@ -21,10 +21,18 @@ export default connect(
     onPage: (e: PaginationEvent) => {
       if (reposList[e.first].contributors === undefined) {
         const chunk = reposList.slice(e.first, e.first + e.rows);
-        const promises = chunk.map(repo => api.getRepoContributors(login, repo.name));
-        Promise.all(promises)
+        const contributorPromises = chunk.map(repo => api.getRepoContributors(login, repo.name));
+        const languagePromises = chunk.map(repo => api.getRepoLanguages(login, repo.name));
+
+        Promise.all([ ...contributorPromises, ...languagePromises ])
           .then((data) => {
-            chunk.map((repo, index) => repo.contributors = data[index].length);
+            const contributors = data.slice(0, chunk.length);
+            const languages = data.slice(chunk.length);
+
+            chunk.forEach((repo, index) => {
+              repo.contributors = contributors[index].length;
+              repo.languages = Object.keys(languages[index]).filter(lang => lang !== repo.language);
+            });
             dispatch(setContributorsChunk(e.first, chunk));
           });
       }

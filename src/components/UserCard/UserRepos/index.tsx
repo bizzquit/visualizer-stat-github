@@ -15,6 +15,7 @@ import ColumnDateTemplate from './ColumnDateTemplate';
 
 import './styles.css';
 import { LoadStatus } from '../../../constants/Status';
+import SecondaryLanguageTemplate from './SecondaryLanguagesTemplate';
 
 type UserCardProps = {
   repositoryData: { data: Repository[], loadStatus: LoadStatus };
@@ -97,7 +98,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
           rowsPerPageOptions={[5, 10, 20, 50]}
           first={first}
           onPage={setNextPage}
-          className="p-datatable-auto-layout p-datatable-flex-scrollable"
+          className="p-datatable-auto-layout p-datatable-flex-scrollable table"
           paginator
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="с {first} по {last} из {totalRecords}"
@@ -111,6 +112,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
             sortable
           />
           <Column
+            className="secondary-col"
             field="updated_at"
             header={<i className="pi pi-calendar" style={{ color: 'var(--primary-color)' }} />}
             body={ColumnDateTemplate}
@@ -122,8 +124,20 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
             body={ColumnStarTemplate}
             sortable
           />
-          <Column field="language" header="Основной язык" sortable />
-          <Column field="Дополнительное" body={ColumnInfoTemplate} />
+          <Column
+            field="language"
+            header="Основной язык"
+            sortable
+          />
+          <Column
+            className="secondary-col"
+            header="Придаточные языки"
+            body={SecondaryLanguageTemplate}
+          />
+          <Column
+            field="Дополнительное"
+            body={ColumnInfoTemplate}
+          />
           <Column
             field="Вспомогательное"
             header=""

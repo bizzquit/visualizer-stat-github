@@ -19,6 +19,14 @@
     color: #66BB6A;
 }
 
+.secondary-col {
+    color: #6e6e6e;
+}
+
+.table {
+    font-size: 14px;
+}
+
 .p-datatable .row-accessories {
     background-color: rgba(0, 0, 0, 0.15) !important;
 }
@@ -45,4 +53,8 @@
 
 .spinner-row {
     height: 14px;
+}
+
+.secondary-lang-col {
+    max-width: 120px;
 }
