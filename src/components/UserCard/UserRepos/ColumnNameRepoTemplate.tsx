@@ -1,13 +1,18 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { IRowData } from '../../../interfaces/types';
 
-const ColumnNameRepoTemplate: React.FC<IRowData<string>> = (rowData) => {
+const ColumnNameRepoTemplate: React.FC<IRowData<any>> = (rowData) => {
+  function setRoute() {
+    rowData.history.push(`/repositories/${rowData.name}`)
+  }
+
   return (
     <React.Fragment>
-      <a href={rowData.html_url} target="_blank">
+      <span className="repo-link" onClick={setRoute}>
         {rowData.name}
-      </a>
+      </span>
     </React.Fragment>
   );
 };
-export default ColumnNameRepoTemplate;
+export default withRouter(ColumnNameRepoTemplate);
