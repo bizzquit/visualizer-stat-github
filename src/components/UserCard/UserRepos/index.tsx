@@ -7,7 +7,7 @@ import { CopyIcon } from '@primer/octicons-react';
 import { Toast } from 'primereact/toast';
 import { Repository } from '../../../interfaces/api-types';
 import { IRowData } from '../../../interfaces/types';
-import UserReposStat from '../UserReposStat';
+import UserReposStat from '../../../containers/UserReposStat';
 import ColumnNameRepoTemplate from './ColumnNameRepoTemplate';
 import ColumnStarTemplate from './ColumnStarTemplate';
 import ColumnInfoTemplate from './ColumnInfoTemplate';
@@ -34,7 +34,6 @@ const sorting = (data: Repository[]) => {
 
 const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
-  const [reposStat, setReposStat] = useState({} as { [key: string]: number });
   const toast = useRef<Toast>(null);
   const [first, setFirst] = useState(0);
   let firstLoad = useRef(false);
@@ -42,14 +41,6 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   useEffect(() => {
     const sortData: Repository[] = sorting(repositoryData.data);
     setRepos(sortData);
-
-    const stat = sortData.reduce((acc, repo) => {
-      const language = repo.language || 'Other';
-      acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
-
-      return acc;
-    }, {} as { [key: string]: number });
-    setReposStat(stat);
 
     if (!firstLoad.current && repositoryData.loadStatus === LoadStatus.Success) {
       firstLoad.current = true;
@@ -96,7 +87,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   ) : (
     <div style={{ width: '100%' }}>
       <div className="stat-wrapper">
-        <UserReposStat data={reposStat} />
+        <UserReposStat />
       </div>
       <Toast ref={toast} />
       <div className="card">

@@ -20,7 +20,15 @@ export default connect(
           () => {
             dispatch(setReposListLoading());
             api.getUserPublicRepos(login).then(
-              data => dispatch(addToReposList(data)),
+              data => {
+                const statData = data.reduce((acc, repo) => {
+                  const language = repo.language || 'Other';
+                  acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
+
+                  return acc;
+                }, {} as { [key: string]: number });
+                dispatch(addToReposList(data, statData));
+              },
               () => dispatch(addToReposList(null))
             );
           }

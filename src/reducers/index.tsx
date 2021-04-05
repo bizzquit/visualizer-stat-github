@@ -25,18 +25,20 @@ function setUserInfoResult(_state: any, action: AnyAction) {
 
 const defaultReposData = {
   data: [] as Repository[],
+  reposStat: {},
   loadStatus: LoadStatus.None
 };
 const reposListReducer = createReducer(defaultReposData, {
   [actionTypes.ADD_TO_REPOS_LIST]: addToReposList,
   [actionTypes.ADD_TO_REPOS_LIST_REQUEST]: setLoading,
-  [actionTypes.MODIFY_REPOS_LIST]: modifyReposList
+  [actionTypes.MODIFY_REPOS_LIST]: modifyReposList,
 });
 function addToReposList(state: any, action: AnyAction) {
   if (action.data) {
     return {
       ...state,
       data: [ ...action.data ],
+      reposStat: { ...action.reposStat },
       loadStatus: LoadStatus.Success,
     };
   }

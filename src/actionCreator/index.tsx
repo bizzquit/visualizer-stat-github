@@ -16,9 +16,10 @@ export const setUserInfoLoading = () => ({
   type: SET_USER_INFO_REQUEST
 });
 
-export const addToReposList = (data: Repository[] | null) => ({
+export const addToReposList = (data: Repository[] | null, reposStat?: { [key: string]: number }) => ({
   type: ADD_TO_REPOS_LIST,
   data,
+  reposStat
 });
 
 export const setReposListLoading = () => ({
