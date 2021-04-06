@@ -58,3 +58,8 @@
 .secondary-lang-col {
     max-width: 120px;
 }
+
+.repo-link {
+    cursor: pointer;
+    color: #1393ff;
+}
