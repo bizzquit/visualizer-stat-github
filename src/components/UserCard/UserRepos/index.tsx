@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { CopyIcon } from '@primer/octicons-react';
 import { Toast } from 'primereact/toast';
-import { Repository, User } from '../../../interfaces/api-types';
-import Api from '../../../api';
+import { Repository } from '../../../interfaces/api-types';
 import { IRowData } from '../../../interfaces/types';
-import UserReposStat from '../UserReposStat';
+import UserReposStat from '../../../containers/UserReposStat';
 import ColumnNameRepoTemplate from './ColumnNameRepoTemplate';
 import ColumnStarTemplate from './ColumnStarTemplate';
 import ColumnInfoTemplate from './ColumnInfoTemplate';
 import ColumnDateTemplate from './ColumnDateTemplate';
 
 import './styles.css';
+import { LoadStatus } from '../../../constants/Status';
+import SecondaryLanguageTemplate from './SecondaryLanguagesTemplate';
 
 type UserCardProps = {
-  user: User;
+  repositoryData: { data: Repository[], loadStatus: LoadStatus };
+  onPage: (e: PaginationEvent) => void;
 };
 
-const api = Api.getInstance();
+export type PaginationEvent = { first: number, rows: number };
 
 const sorting = (data: Repository[]) => {
   const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -31,27 +33,26 @@ const sorting = (data: Repository[]) => {
   });
 };
 
-const UserRepos: React.FC<UserCardProps> = ({ user }) => {
+const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
-  const [reposStat, setReposStat] = useState({} as { [key: string]: number });
-  const [loading, setLoading] = useState(true);
   const toast = useRef<Toast>(null);
+  const [first, setFirst] = useState(0);
+  let firstLoad = useRef(false);
 
   useEffect(() => {
-    api.getUserPublicRepos(user.login).then((data) => {
-      const sortData: Repository[] = sorting(data);
-      setLoading(false);
-      setRepos(sortData);
+    const sortData: Repository[] = sorting(repositoryData.data);
+    setRepos(sortData);
 
-      const stat = sortData.reduce((acc, repo) => {
-        const language = repo.language || 'Other';
-        acc[language] = acc[language] !== undefined ? acc[language] + 1 : 1;
+    if (!firstLoad.current && repositoryData.loadStatus === LoadStatus.Success) {
+      firstLoad.current = true;
+      onPage({ first: 0, rows: 10 });
+    }
+  }, [repositoryData]);
 
-        return acc;
-      }, {} as { [key: string]: number });
-      setReposStat(stat);
-    });
-  }, [user.login]);
+  function setNextPage(e: PaginationEvent) {
+    setFirst(e.first);
+    onPage(e);
+  }
 
   const OtherBodyTemplate: React.FC<IRowData<string>> = (rowData) => {
     const copyRepo = () => {
@@ -82,12 +83,12 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
     );
   };
 
-  return loading ? (
+  return repositoryData.loadStatus === LoadStatus.Loading ? (
     <ProgressSpinner />
   ) : (
     <div style={{ width: '100%' }}>
       <div className="stat-wrapper">
-        <UserReposStat data={reposStat} />
+        <UserReposStat />
       </div>
       <Toast ref={toast} />
       <div className="card">
@@ -95,7 +96,9 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
           value={repos}
           rows={10}
           rowsPerPageOptions={[5, 10, 20, 50]}
-          className="p-datatable-auto-layout p-datatable-flex-scrollable"
+          first={first}
+          onPage={setNextPage}
+          className="p-datatable-auto-layout p-datatable-flex-scrollable table"
           paginator
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="с {first} по {last} из {totalRecords}"
@@ -109,6 +112,7 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
             sortable
           />
           <Column
+            className="secondary-col"
             field="updated_at"
             header={<i className="pi pi-calendar" style={{ color: 'var(--primary-color)' }} />}
             body={ColumnDateTemplate}
@@ -120,8 +124,20 @@ const UserRepos: React.FC<UserCardProps> = ({ user }) => {
             body={ColumnStarTemplate}
             sortable
           />
-          <Column field="language" header="Основной язык" sortable />
-          <Column field="Дополнительное" body={ColumnInfoTemplate} />
+          <Column
+            field="language"
+            header="Основной язык"
+            sortable
+          />
+          <Column
+            className="secondary-col"
+            header="Придаточные языки"
+            body={SecondaryLanguageTemplate}
+          />
+          <Column
+            field="Дополнительное"
+            body={ColumnInfoTemplate}
+          />
           <Column
             field="Вспомогательное"
             header=""

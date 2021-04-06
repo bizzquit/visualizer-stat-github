@@ -1,20 +1,19 @@
 import { Chart } from 'primereact/chart';
 
 interface UserReposStatProps {
-  data: { [key: string]: number };
+  reposStat: { [key: string]: number };
 }
 
-export default ({ data }: UserReposStatProps) => {
+export default ({ reposStat }: UserReposStatProps) => {
   let chartLabels = [] as string[];
   let chartData = [] as number[];
 
-  Object.entries(data)
+  Object.entries(reposStat)
     .sort((a, b) => b[1] - a[1])
     .forEach(([ lang, count ]) => {
       chartLabels.push(lang);
       chartData.push(count);
     });
-
 
   return (
     <>
