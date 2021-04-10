@@ -2,7 +2,6 @@ import { AnyAction, combineReducers } from 'redux';
 import { createReducer } from 'redux-create-reducer';
 import * as actionTypes from '../actionTypes/index';
 import { LoadStatus } from '../constants/Status';
-import { Repository } from '../interfaces/api-types';
 
 const defaultUserInfo = {
   loadStatus: LoadStatus.None,
@@ -11,10 +10,10 @@ const userInfoReducer = createReducer(defaultUserInfo, {
   [actionTypes.SET_USER_INFO_RESULT]: setUserInfoResult,
   [actionTypes.SET_USER_INFO_REQUEST]: setLoading,
 });
-function setUserInfoResult(_state: any, action: AnyAction) {
-  if (action.user) {
+function setUserInfoResult(_state: any, { user }: AnyAction) {
+  if (user) {
     return {
-      ...action.user,
+      ...user,
       loadStatus: LoadStatus.Success,
     };
   }
@@ -24,7 +23,7 @@ function setUserInfoResult(_state: any, action: AnyAction) {
 
 
 const defaultReposData = {
-  data: [] as Repository[],
+  data: null,
   reposStat: {},
   loadStatus: LoadStatus.None
 };
@@ -33,12 +32,12 @@ const reposListReducer = createReducer(defaultReposData, {
   [actionTypes.ADD_TO_REPOS_LIST_REQUEST]: setLoading,
   [actionTypes.MODIFY_REPOS_LIST]: modifyReposList,
 });
-function addToReposList(state: any, action: AnyAction) {
-  if (action.data) {
+function addToReposList(state: any, { data, reposStat }: AnyAction) {
+  if (data) {
     return {
       ...state,
-      data: [ ...action.data ],
-      reposStat: { ...action.reposStat },
+      data: data,
+      reposStat: reposStat,
       loadStatus: LoadStatus.Success,
     };
   }
@@ -49,15 +48,14 @@ function addToReposList(state: any, action: AnyAction) {
     loadStatus: LoadStatus.Error
   };
 }
-function modifyReposList(state: any, action: AnyAction) {
-  state.data.splice(action.from, action.chunk.length, ...action.chunk);
+function modifyReposList(state: any, { from, chunk }: AnyAction) {
+  state.data.splice(from, chunk.length, ...chunk);
 
   return {
     ...state,
-    data: [ ...state.data ]
+    data: state.data
   }
 }
-
 function setLoading(state: any, _action: AnyAction) {
   return {
     ...state,
