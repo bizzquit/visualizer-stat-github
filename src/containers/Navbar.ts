@@ -14,7 +14,10 @@ export default connect(
         .fetchUserInfo(login)
         .then(
           (user) => dispatch(setUserInfo(user)),
-          () => dispatch(setUserInfo(null))
+          () => {
+            dispatch(setUserInfo(null));
+            throw new Error('load error');
+          }
         )
         .then(
           () => {
@@ -33,6 +36,7 @@ export default connect(
             );
           }
         )
+        .catch(() => {})
     },
   })
 )(Navbar);
