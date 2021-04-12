@@ -37,15 +37,15 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
   const toast = useRef<Toast>(null);
   const [first, setFirst] = useState(0);
-  let firstLoad = useRef(false);
 
   useEffect(() => {
-    const sortData: Repository[] = sorting(repositoryData.data);
-    setRepos(sortData);
+    if (repositoryData.data) {
+      const sortData: Repository[] = sorting(repositoryData.data);
+      setRepos(sortData);
 
-    if (!firstLoad.current && repositoryData.loadStatus === LoadStatus.Success) {
-      firstLoad.current = true;
-      onPage({ first: 0, rows: 10 });
+      if (repositoryData.loadStatus === LoadStatus.Success) {
+        onPage({ first: 0, rows: 10 });
+      }
     }
   }, [repositoryData]);
 
