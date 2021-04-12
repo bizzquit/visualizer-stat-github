@@ -38,6 +38,10 @@ export default class Api {
     return Api.fetchData(`GET /repos/${login}/${repo}/languages`);
   }
 
+  getRepoField(login: string, repo: string, field: string): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`);
+  }
+
   private static fetchData(url: string, params?: Params) {
     return octokit.request(url, params).then((res) => {
       if ([404, 500].includes(res.status)) {

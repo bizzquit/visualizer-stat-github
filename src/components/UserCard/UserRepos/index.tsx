@@ -12,17 +12,17 @@ import ColumnNameRepoTemplate from './ColumnNameRepoTemplate';
 import ColumnStarTemplate from './ColumnStarTemplate';
 import ColumnInfoTemplate from './ColumnInfoTemplate';
 import ColumnDateTemplate from './ColumnDateTemplate';
-
-import './styles.css';
 import { LoadStatus } from '../../../constants/Status';
 import SecondaryLanguageTemplate from './SecondaryLanguagesTemplate';
 
+import './styles.css';
+
 type UserCardProps = {
-  repositoryData: { data: Repository[], loadStatus: LoadStatus };
+  repositoryData: { data: Repository[]; loadStatus: LoadStatus };
   onPage: (e: PaginationEvent) => void;
 };
 
-export type PaginationEvent = { first: number, rows: number };
+export type PaginationEvent = { first: number; rows: number };
 
 const sorting = (data: Repository[]) => {
   const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
@@ -124,20 +124,13 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
             body={ColumnStarTemplate}
             sortable
           />
-          <Column
-            field="language"
-            header="Основной язык"
-            sortable
-          />
+          <Column field="language" header="Основной язык" sortable />
           <Column
             className="secondary-col"
             header="Придаточные языки"
             body={SecondaryLanguageTemplate}
           />
-          <Column
-            field="Дополнительное"
-            body={ColumnInfoTemplate}
-          />
+          <Column field="Дополнительное" body={ColumnInfoTemplate} />
           <Column
             field="Вспомогательное"
             header=""

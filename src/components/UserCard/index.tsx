@@ -4,6 +4,9 @@ import UserRepos from '../../containers/UserRepos';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { User } from '../../interfaces/api-types';
+import { Route, Switch } from 'react-router-dom';
+import RepositoryView from '../../containers/RepositoryView';
+
 import './styles.css';
 
 type UserCardProps = {
@@ -17,9 +20,24 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
         switch (user.loadStatus) {
           case LoadStatus.Success:
             return (
-              <div className="p-d-lg-flex p-d-sm-inline p-d-md-inline p-justify-between p-m-3 information">
+              <div className="p-d-lg-flex p-d-sm-inline p-d-md-inline p-m-3 information">
                 <UserInfo user={user} />
-                <UserRepos />
+                <Switch>
+                  <Route
+                    path="/repositories/:name"
+                    render={(props) => <RepositoryView name={props.match.params.name} />}
+                  />
+                  <Route
+                    path="/find"
+                    render={() => (
+                      <>
+                        <div className="p-d-flex user-card">
+                          <UserRepos />
+                        </div>
+                      </>
+                    )}
+                  />
+                </Switch>
               </div>
             );
           case LoadStatus.Error:

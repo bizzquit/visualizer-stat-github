@@ -1,10 +1,13 @@
-.repo-info-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 800px;
-    margin: 0 auto;
-    padding: 40px 0;
+.goBack-button {
+    width: max-content;
+    height:40px;
 }
+
+.repo-info-container {
+    width: 100%;
+    padding: 0 30px;
+}
+
 
 .repo-header {
     font-size: 32px;

@@ -1,38 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Repository } from '../../interfaces/api-types';
+import Header from './Header';
+import StarsAndContributors from './StarsAndContributors';
+import Languages from './Languages';
 
 import './styles.css';
-import { GitForkIcon, PeopleIcon, StarIcon } from '@primer/octicons-react';
 
-type RepositoryViewProps = {
-  data: Repository
+import Api from '../../api';
+
+const api = Api.getInstance();
+
+export type RepositoryViewProps = {
+  data: Repository;
 };
 
-const RepositoryView: React.FC<RepositoryViewProps> = ({data}) => {
+const getFieldsRepo = (data: any, col: number = 5) => {
+  const array: string[] = [];
+  if (data) {
+    for (let i = 0; i < data.length && i < col; i++) {
+      array.push(data[i].avatar_url);
+    }
+  }
+  return array;
+};
+
+const RepositoryView: React.FC<RepositoryViewProps> = ({ data }) => {
+  const [contributors, setContributors] = useState<any>([]);
+  const [stargazers, setStargazers] = useState<any>([]);
+
+  const getInfo = () => {
+    api.getRepoField(`${data.owner?.login}`, data.name, 'contributors').then((data) => {
+      const array = getFieldsRepo(data);
+      setContributors(array);
+    });
+    api.getRepoField(`${data.owner?.login}`, data.name, 'stargazers').then((data) => {
+      const array = getFieldsRepo(data);
+      setStargazers(array);
+    });
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, [data.name]);
+
   return (
     <section className="repo-info-container">
-      <header className="repo-header">
-        { data.fork ? <GitForkIcon size={32} /> : null }
-        { data.name }
-      </header>
-      <div className="owner-container">
-        <img className="user-avatar" src={data.owner?.avatar_url} />
-        { data.owner?.login }
-      </div>
-      <p>{ data.description }</p>
+      <Header data={data} />
       <div>
-        <div className="data-block">
-          <StarIcon size={24} /><span className="icon-text">{ data.stargazers_count }</span>
-        </div>
-        <div className="data-block">
-          <PeopleIcon size={24} /><span className="icon-text">{ data.contributors }</span>
-        </div>
-        <span className="lang-chips main-chips" title="Основной язык">{data.language}</span>
-        { data.languages && data.languages.map((lang, index) => (
-          <span key={index} className="lang-chips" title="Придаточный язык">{lang}</span>
-        ))}
+        <StarsAndContributors data={data} starImg={stargazers} contribImg={contributors} />
+        <Languages data={data} />
       </div>
-
     </section>
   );
 };
