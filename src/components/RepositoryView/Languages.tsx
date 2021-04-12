@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './index';
 import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
+import api from '../../api';
 
 const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
+  const [languages, setLanguages] = useState<any>(null);
+
+  useEffect(() => {
+    api.getRepoField(`${data.owner?.login}`, data.name, 'languages').then((data) => {
+      setLanguages(data);
+    });
+  }, []);
+
   return (
     <div>
       <h4>Используемые языки</h4>
@@ -13,7 +22,7 @@ const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
           label={data.language}
           className="p-mr-2 p-button-danger p-button-rounded"
         >
-          <Badge value={data.language} />
+          <Badge value={languages ? languages[data.language] : 0} />
         </Button>
       )}
 
@@ -26,7 +35,7 @@ const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
               label={lang}
               className="p-mr-2 p-button-rounded"
             >
-              <Badge value={888} />
+              <Badge value={languages ? languages[lang] : 0} />
             </Button>
           );
         })}

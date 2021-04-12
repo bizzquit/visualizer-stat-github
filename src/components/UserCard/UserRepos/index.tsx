@@ -37,6 +37,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   const [repos, setRepos] = useState([] as Repository[]);
   const toast = useRef<Toast>(null);
   const [first, setFirst] = useState(0);
+  const rows = 10;
 
   useEffect(() => {
     if (repositoryData.data) {
@@ -44,7 +45,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
       setRepos(sortData);
 
       if (repositoryData.loadStatus === LoadStatus.Success) {
-        onPage({ first: 0, rows: 10 });
+        onPage({ first: 0, rows: rows });
       }
     }
   }, [repositoryData]);
@@ -94,7 +95,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
       <div className="card">
         <DataTable
           value={repos}
-          rows={10}
+          rows={rows}
           rowsPerPageOptions={[5, 10, 20, 50]}
           first={first}
           onPage={setNextPage}

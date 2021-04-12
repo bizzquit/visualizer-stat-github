@@ -7,16 +7,8 @@ type Params = {
   per_page?: number;
 };
 
-export default class Api {
-  private constructor() {}
-  private static api: Api | undefined;
-
-  static getInstance() {
-    if (!this.api) {
-      this.api = new Api();
-    }
-    return this.api;
-  }
+class Api {
+  constructor() {}
 
   fetchUserInfo(login: string): Promise<User> {
     return Api.fetchData(`GET /users/${login}`);
@@ -38,8 +30,13 @@ export default class Api {
     return Api.fetchData(`GET /repos/${login}/${repo}/languages`);
   }
 
-  getRepoField(login: string, repo: string, field: string): Promise<Contributor[]> {
-    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`);
+  getRepoField(
+    login: string,
+    repo: string,
+    field: string,
+    per_page: number = 200
+  ): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { per_page });
   }
 
   private static fetchData(url: string, params?: Params) {
@@ -52,3 +49,6 @@ export default class Api {
     });
   }
 }
+
+const api = new Api();
+export default api;
