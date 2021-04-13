@@ -21,8 +21,10 @@ const RepositoryView: React.FC<RepositoryViewProps> = ({ data }) => {
       <div>
         <StarsAndContributorsAvatars data={data} />
         <Languages data={data} />
-        <IssueRepo data={data} />
-        <PullsRepo data={data} />
+        <div className="p-flex-column">
+          <IssueRepo data={data} />
+          <PullsRepo data={data} />
+        </div>
       </div>
     </section>
   );

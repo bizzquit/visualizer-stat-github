@@ -55,3 +55,7 @@
 .badge {
     color: #000;
 }
+
+.chart__closed-chart {
+    width:40%;
+}

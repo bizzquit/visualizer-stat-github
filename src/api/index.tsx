@@ -43,12 +43,12 @@ class Api {
     login: string,
     repo: string,
     field: string,
-    state:string='closed',
-    page:number = 0,
+    state = 'all',
+    page: number = 0,
     per_page: number = 100
-  ){
-    // @ts-ignore
-    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, page, per_page  });
+  ) {
+    //@ts-ignore
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, page, per_page });
   }
 
   private static fetchData(url: string, params?: Params) {
