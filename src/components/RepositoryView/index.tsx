@@ -4,6 +4,7 @@ import Header from './Header';
 import StarsAndContributorsAvatars from './StarsAndContributorsAvatars';
 import Languages from './Languages';
 import IssueRepo from './IssueRepo';
+import PullsRepo from './PullsRepo';
 
 import './styles.css';
 
@@ -21,6 +22,7 @@ const RepositoryView: React.FC<RepositoryViewProps> = ({ data }) => {
         <StarsAndContributorsAvatars data={data} />
         <Languages data={data} />
         <IssueRepo data={data} />
+        <PullsRepo data={data} />
       </div>
     </section>
   );

@@ -34,9 +34,21 @@ class Api {
     login: string,
     repo: string,
     field: string,
-    per_page: number = 200
+    per_page: number = 100
   ): Promise<Contributor[]> {
     return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { per_page });
+  }
+
+  getRepoIssuesAndPull(
+    login: string,
+    repo: string,
+    field: string,
+    state:string='closed',
+    page:number = 0,
+    per_page: number = 100
+  ){
+    // @ts-ignore
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, page, per_page  });
   }
 
   private static fetchData(url: string, params?: Params) {
