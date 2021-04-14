@@ -18,8 +18,8 @@ const getFieldsRepo = (data: any): string[] => {
 };
 
 const StarsAndContributorsAvatars: React.FC<RepositoryViewProps> = ({ data }) => {
-  const [contributors, setContributors] = useState<any>([]);
-  const [stargazers, setStargazers] = useState<any>([]);
+  const [contributors, setContributors] = useState<string[]>([]);
+  const [stargazers, setStargazers] = useState<string[]>([]);
   const perPage = 5;
 
   useEffect(() => {

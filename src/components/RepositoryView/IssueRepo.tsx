@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './index';
 import { Chart } from 'primereact/chart';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import api from '../../api';
 
 export const days = (dateCreated: string, dateClosed: string) => {
@@ -103,12 +104,18 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
 
   return (
     <div className="chart__closed-chart">
-      {loading && (
+      {!loading ? (
+        <ProgressSpinner />
+      ) : (
         <>
-          <h3>График закрытия задач(issues):</h3>
-          <div className="card">
-            <Chart type="bar" data={chartData} options={lightOptions} />
-          </div>
+          <h3>Закрытие задач(issues):</h3>
+          {timeClosedIssue ? (
+            <div className="card">
+              <Chart type="bar" data={chartData} options={lightOptions} />
+            </div>
+          ) : (
+            <h4>Нет закрытых задач</h4>
+          )}
         </>
       )}
     </div>

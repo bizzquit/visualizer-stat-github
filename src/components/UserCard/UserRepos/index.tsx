@@ -25,7 +25,7 @@ type UserCardProps = {
 export type PaginationEvent = { first: number; rows: number };
 
 const sorting = (data: Repository[]) => {
-  const sortStars = data.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count);
+  const sortStars = data.sort((a, b) => b.stargazers_count - a.stargazers_count);
   return sortStars.sort((a: any, b: any) => {
     const aDate: any = new Date(a.updated_at);
     const bDate: any = new Date(b.updated_at);
@@ -96,7 +96,6 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
         <DataTable
           value={repos}
           rows={rows}
-          rowsPerPageOptions={[5, 10, 20, 50]}
           first={first}
           onPage={setNextPage}
           className="p-datatable-auto-layout p-datatable-flex-scrollable table"
@@ -106,26 +105,23 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
         >
           <Column
             field="name"
-            header="Name"
+            header="Имя репозитория"
             body={ColumnNameRepoTemplate}
             filter
             filterPlaceholder="Поиск по названию"
-            sortable
           />
           <Column
             className="secondary-col"
             field="updated_at"
             header={<i className="pi pi-calendar" style={{ color: 'var(--primary-color)' }} />}
             body={ColumnDateTemplate}
-            sortable
           />
           <Column
             field="stargazers_count"
             header={<i className="pi pi-star" style={{ color: 'var(--primary-color)' }} />}
             body={ColumnStarTemplate}
-            sortable
           />
-          <Column field="language" header="Основной язык" sortable />
+          <Column field="language" header="Основной язык" />
           <Column
             className="secondary-col"
             header="Придаточные языки"

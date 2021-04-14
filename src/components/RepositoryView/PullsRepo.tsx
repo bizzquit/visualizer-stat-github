@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './index';
 import api from '../../api';
 import { Chart } from 'primereact/chart';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { days, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
 
 const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
@@ -73,12 +74,18 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
 
   return (
     <div className="chart__closed-chart">
-      {loading && (
+      {!loading ? (
+        <ProgressSpinner />
+      ) : (
         <>
-          <h3>График закрытия пулл реквестов(pull requests):</h3>
-          <div className="card">
-            <Chart type="bar" data={chartData} options={lightOptions} />
-          </div>
+          <h3>Закрытие пулл реквестов(pull requests):</h3>
+          {timeClosedPull ? (
+            <div className="card">
+              <Chart type="bar" data={chartData} options={lightOptions} />
+            </div>
+          ) : (
+            <h4>Нет закрытых пулл реквестов</h4>
+          )}
         </>
       )}
     </div>
