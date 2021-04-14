@@ -13,7 +13,7 @@ export const labelsArray = (array: number[]) => {
   return array.map((_, i) => ++i);
 };
 
-export const meanSingle = (array: number[]) => {
+export const averageSingle = (array: number[]) => {
   return array.map((el: any) => days(el.created_at, el.closed_at));
 };
 
@@ -21,14 +21,13 @@ export const halfMeanAll = (array: number[], mean: number) => {
   return array.map(() => mean);
 };
 
-export const meanAll = (data: string[], setState: React.Dispatch<React.SetStateAction<number>>) => {
+export const averageAll = (data: number[]) => {
   const array: number[] = data.map((el: any) => days(el.created_at, el.closed_at));
   if (array.length > 1) {
     const sum = array.reduce((acc, curr) => acc + curr);
-    const result: number = Math.floor(sum / array.length);
-    setState(result);
+    return Math.floor(sum / array.length);
   } else {
-    setState(array[0]);
+    return array[0] || 0;
   }
 };
 
@@ -37,26 +36,31 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [labelsIssue, setLabelsIssue] = useState<number[]>([]);
   const [closedIssue, setClosedIssue] = useState<number[]>([]);
   const [halfClosedIssue, setHalfClosedIssue] = useState<number[]>([]);
-  const [timeClosedIssue, setTimeClosedIssue] = useState(0);
+  const [timeClosedIssue, setTimeClosedIssue] = useState(-1);
+
+  const YEAR: number = 365;
+  let filterData: number[] = [];
 
   useEffect(() => {
-    const YEAR: number = 365;
     api.getRepoIssuesAndPull(`${data.owner?.login}`, data.name, 'issues', 'closed').then((data) => {
-      const filterData = data.filter((el: any) => days(el.created_at, el.closed_at) < YEAR);
-      setClosedIssue(meanSingle(filterData));
-      meanAll(filterData, setTimeClosedIssue);
-      setHalfClosedIssue(halfMeanAll(filterData, timeClosedIssue));
+      filterData = data.filter((el: any) => days(el.created_at, el.closed_at) < YEAR);
       setLabelsIssue(labelsArray(filterData));
-      setLoading(true);
+      setClosedIssue(averageSingle(filterData));
+      setTimeClosedIssue(averageAll(filterData));
+      setHalfClosedIssue(halfMeanAll(filterData, timeClosedIssue));
+
+      if (timeClosedIssue >= 0) {
+        setLoading(true);
+      }
     });
-  }, []);
+  }, [timeClosedIssue]);
 
   const chartData = {
     labels: labelsIssue,
     datasets: [
       {
         type: 'line',
-        label: 'Среднее',
+        label: `Ср.время закрытия ${timeClosedIssue} дн.`,
         borderColor: '#0945d9',
         borderWidth: 2,
         fill: false,
@@ -102,7 +106,6 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       {loading && (
         <>
           <h3>График закрытия задач(issues):</h3>
-          <h4>Среднее время закрытия задач: {timeClosedIssue} дн.</h4>
           <div className="card">
             <Chart type="bar" data={chartData} options={lightOptions} />
           </div>

@@ -57,5 +57,6 @@
 }
 
 .chart__closed-chart {
-    width:40%;
+    width:50%;
+    min-width: 350px;
 }

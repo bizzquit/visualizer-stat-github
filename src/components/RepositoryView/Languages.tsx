@@ -15,7 +15,6 @@ const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
 
   return (
     <div>
-      <h4>Используемые языки</h4>
       {data.language && (
         <Button
           type="button"

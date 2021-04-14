@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React /*, { useEffect }*/ from 'react';
 import { Repository } from '../../interfaces/api-types';
 import Header from './Header';
 import StarsAndContributorsAvatars from './StarsAndContributorsAvatars';
@@ -13,18 +13,16 @@ export type RepositoryViewProps = {
 };
 
 const RepositoryView: React.FC<RepositoryViewProps> = ({ data }) => {
-  useEffect(() => {}, [data.name]);
+  // useEffect(() => {}, [data.name]);
 
   return (
     <section className="repo-info-container">
       <Header data={data} />
-      <div>
-        <StarsAndContributorsAvatars data={data} />
-        <Languages data={data} />
-        <div className="p-flex-column">
-          <IssueRepo data={data} />
-          <PullsRepo data={data} />
-        </div>
+      <Languages data={data} />
+      <StarsAndContributorsAvatars data={data} />
+      <div className="p-d-flex">
+        <IssueRepo data={data} />
+        <PullsRepo data={data} />
       </div>
     </section>
   );

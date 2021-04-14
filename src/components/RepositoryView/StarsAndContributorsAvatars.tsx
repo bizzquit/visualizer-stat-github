@@ -34,8 +34,8 @@ const StarsAndContributorsAvatars: React.FC<RepositoryViewProps> = ({ data }) =>
   }, []);
 
   return (
-    <>
-      <div>
+    <section className="p-d-inline-flex">
+      <div className="p-mr-5">
         <h4>
           <StarIcon size={24} className="p-mr-2" />
           {`Звёзды: ${data.stargazers_count}`}
@@ -63,7 +63,7 @@ const StarsAndContributorsAvatars: React.FC<RepositoryViewProps> = ({ data }) =>
           )}
         </AvatarGroup>
       </div>
-    </>
+    </section>
   );
 };
 

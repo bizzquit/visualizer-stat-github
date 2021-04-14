@@ -2,34 +2,36 @@ import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './index';
 import api from '../../api';
 import { Chart } from 'primereact/chart';
-import { days, halfMeanAll, labelsArray, meanAll, meanSingle } from './IssueRepo';
+import { days, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
 
 const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [labelsPull, setLabelsPull] = useState<number[]>([]);
   const [closedPull, setClosedPull] = useState<number[]>([]);
   const [halfClosedPull, setHalfClosedPull] = useState<number[]>([]);
-  const [timeClosedPull, setTimeClosedPull] = useState(0);
+  const [timeClosedPull, setTimeClosedPull] = useState(-1);
 
   useEffect(() => {
     const YEAR: number = 365;
     api.getRepoIssuesAndPull(`${data.owner?.login}`, data.name, 'pulls', 'closed').then((data) => {
       const filterData = data.filter((el: any) => days(el.created_at, el.closed_at) < YEAR);
       setLabelsPull(labelsArray(filterData));
-      setClosedPull(meanSingle(filterData));
-      meanAll(filterData, setTimeClosedPull);
+      setClosedPull(averageSingle(filterData));
+      setTimeClosedPull(averageAll(filterData));
       setHalfClosedPull(halfMeanAll(filterData, timeClosedPull));
-      setLoading(true);
+      if (timeClosedPull >= 0) {
+        setLoading(true);
+      }
     });
-  }, []);
+  }, [timeClosedPull]);
 
   const chartData = {
     labels: labelsPull,
     datasets: [
       {
         type: 'line',
-        label: 'Среднее',
-        borderColor: '#0945d9',
+        label: `Ср.время закрытия ${timeClosedPull} дн.`,
+        borderColor: '#ec4657',
         borderWidth: 2,
         fill: false,
         data: halfClosedPull,
@@ -37,9 +39,9 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       {
         type: 'bar',
         label: 'Время закрытия(в днях)',
-        backgroundColor: 'red',
+        backgroundColor: '#0945d9',
         data: closedPull,
-        borderColor: '#ec4657',
+        borderColor: '#0945d9',
         borderWidth: 2,
       },
     ],
@@ -74,7 +76,6 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       {loading && (
         <>
           <h3>График закрытия пулл реквестов(pull requests):</h3>
-          <h4>Среднее время закрытия пулл реквестов: {timeClosedPull} дн.</h4>
           <div className="card">
             <Chart type="bar" data={chartData} options={lightOptions} />
           </div>
