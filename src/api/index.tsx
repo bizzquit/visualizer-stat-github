@@ -30,6 +30,13 @@ class Api {
     return Api.fetchData(`GET /repos/${login}/${repo}/languages`);
   }
 
+  getActivityUser(login: string, per_page: number = 100): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/received_events`, { per_page });
+  }
+  getContributions(login: string): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/contributions`);
+  }
+
   getRepoField(
     login: string,
     repo: string,
