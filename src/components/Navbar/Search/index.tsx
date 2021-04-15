@@ -15,7 +15,7 @@ const Search: React.FC<SearchCardProps> = ({ onSubmit }) => {
   };
 
   const onHandlerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setValue(event.target.value);
+    setValue(event.target.value.trim());
   };
 
   const onHandlerClick = () => {

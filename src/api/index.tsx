@@ -7,16 +7,8 @@ type Params = {
   per_page?: number;
 };
 
-export default class Api {
-  private constructor() {}
-  private static api: Api | undefined;
-
-  static getInstance() {
-    if (!this.api) {
-      this.api = new Api();
-    }
-    return this.api;
-  }
+class Api {
+  constructor() {}
 
   fetchUserInfo(login: string): Promise<User> {
     return Api.fetchData(`GET /users/${login}`);
@@ -38,6 +30,34 @@ export default class Api {
     return Api.fetchData(`GET /repos/${login}/${repo}/languages`);
   }
 
+  getActivityUser(login: string, per_page: number = 100): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/received_events`, { per_page });
+  }
+  getContributions(login: string): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/contributions`);
+  }
+
+  getRepoField(
+    login: string,
+    repo: string,
+    field: string,
+    per_page: number = 100
+  ): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { per_page });
+  }
+
+  getRepoIssuesAndPull(
+    login: string,
+    repo: string,
+    field: string,
+    state = 'all',
+    page: number = 0,
+    per_page: number = 100
+  ) {
+    //@ts-ignore
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, page, per_page });
+  }
+
   private static fetchData(url: string, params?: Params) {
     return octokit.request(url, params).then((res) => {
       if ([404, 500].includes(res.status)) {
@@ -48,3 +68,6 @@ export default class Api {
     });
   }
 }
+
+const api = new Api();
+export default api;

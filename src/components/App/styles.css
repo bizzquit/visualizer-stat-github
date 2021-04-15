@@ -4,9 +4,6 @@
   flex-direction: column;
 }
 
-.container {
-  flex-grow: 0;
-}
 .information {
   width:100%;
 }
