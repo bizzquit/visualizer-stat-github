@@ -16,6 +16,7 @@ import { LoadStatus } from '../../../constants/Status';
 import SecondaryLanguageTemplate from './SecondaryLanguagesTemplate';
 
 import './styles.css';
+import CalendarActivityUser from '../../../containers/CalendarActivityUser';
 
 type UserCardProps = {
   repositoryData: { data: Repository[]; loadStatus: LoadStatus };
@@ -90,6 +91,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
     <div style={{ width: '100%' }}>
       <div className="stat-wrapper">
         <UserReposStat />
+        <CalendarActivityUser />
       </div>
       <Toast ref={toast} />
       <div className="card">
