@@ -23,7 +23,7 @@ const Search: React.FC<SearchCardProps> = ({ onSubmit }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <InputText
         type="search"
         className="p-ml-5 input-search"
@@ -33,7 +33,7 @@ const Search: React.FC<SearchCardProps> = ({ onSubmit }) => {
         onKeyPress={onEnterKeyDown}
       />
       <Button className="p-ml-2" label="Искать" onClick={onHandlerClick} />
-    </React.Fragment>
+    </>
   );
 };
 

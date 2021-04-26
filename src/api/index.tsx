@@ -5,11 +5,10 @@ const octokit = new Octokit({ auth: '1dc6e83184b380e6172ccded0c522341fcdac7ca' }
 type Params = {
   type?: string;
   per_page?: number;
+  state?: string;
 };
 
 class Api {
-  constructor() {}
-
   fetchUserInfo(login: string): Promise<User> {
     return Api.fetchData(`GET /users/${login}`);
   }
@@ -33,6 +32,7 @@ class Api {
   getActivityUser(login: string, per_page: number = 100): Promise<Repository[]> {
     return Api.fetchData(`GET /users/${login}/received_events`, { per_page });
   }
+
   getContributions(login: string): Promise<Repository[]> {
     return Api.fetchData(`GET /users/${login}/contributions`);
   }
@@ -51,21 +51,13 @@ class Api {
     repo: string,
     field: string,
     state = 'all',
-    page: number = 0,
     per_page: number = 100
   ) {
-    //@ts-ignore
-    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, page, per_page });
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, per_page });
   }
 
   private static fetchData(url: string, params?: Params) {
-    return octokit.request(url, params).then((res) => {
-      if ([404, 500].includes(res.status)) {
-        throw res;
-      } else {
-        return res.data;
-      }
-    });
+    return octokit.request(url, params).then((res) => res.data);
   }
 }
 

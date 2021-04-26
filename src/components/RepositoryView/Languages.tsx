@@ -5,7 +5,7 @@ import { Badge } from 'primereact/badge';
 import api from '../../api';
 
 const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
-  const [languages, setLanguages] = useState<any>(null);
+  const [languages, setLanguages] = useState<any>();
 
   useEffect(() => {
     api.getRepoField(`${data.owner?.login}`, data.name, 'languages').then((data) => {
