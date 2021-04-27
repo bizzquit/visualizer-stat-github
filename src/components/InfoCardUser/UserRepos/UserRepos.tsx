@@ -7,16 +7,16 @@ import { CopyIcon } from '@primer/octicons-react';
 import { Toast } from 'primereact/toast';
 import { Repository } from '../../../interfaces/api-types';
 import { IRowData } from '../../../interfaces/types';
-import UserReposStat from '../../../containers/UserReposStat';
+import UserReposStat from '../UserReposStat/index';
 import ColumnNameRepoTemplate from './ColumnNameRepoTemplate';
 import ColumnStarTemplate from './ColumnStarTemplate';
 import ColumnInfoTemplate from './ColumnInfoTemplate';
 import ColumnDateTemplate from './ColumnDateTemplate';
 import { LoadStatus } from '../../../constants/Status';
 import SecondaryLanguageTemplate from './SecondaryLanguagesTemplate';
+import CalendarActivityUser from '../CalendarActivityUser';
 
 import './styles.css';
-import CalendarActivityUser from '../../../containers/CalendarActivityUser';
 
 type UserCardProps = {
   repositoryData: { data: Repository[]; loadStatus: LoadStatus };
@@ -63,7 +63,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
         .then(() => {
           toast.current?.show({
             severity: 'success',
-            summary: 'Вы скопировали репозиторий',
+            summary: 'Ссылка скопирована',
             detail: `${rowData.git_url}`,
             life: 3000,
           });
@@ -88,8 +88,8 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
   return repositoryData.loadStatus === LoadStatus.Loading ? (
     <ProgressSpinner />
   ) : (
-    <div style={{ width: '100%' }}>
-      <div className="stat-wrapper">
+    <div style={{ width: '100%' }} className="p-shadow-3 p-p-3">
+      <div className="stat-wrapper p-d-block">
         <UserReposStat />
         <CalendarActivityUser />
       </div>

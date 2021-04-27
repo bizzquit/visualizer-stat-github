@@ -14,7 +14,7 @@ export type RepositoryViewProps = {
 
 const RepositoryView: React.FC<RepositoryViewProps> = ({ data }) => {
   return (
-    <section className="repo-info-container">
+    <section className="repo-info-container p-shadow-5">
       <Header data={data} />
       <Languages data={data} />
       <StarsAndContributorsAvatars data={data} />

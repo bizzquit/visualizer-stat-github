@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { Repository, User } from '../interfaces/api-types';
-import UserRepos, { PaginationEvent } from '../components/InfoCardUser/UserRepos';
-import { LoadStatus } from '../constants/Status';
-import api from '../api';
-import { setContributorsChunk } from '../actionCreator';
+import { Repository, User } from '../../../interfaces/api-types';
+import UserRepos, { PaginationEvent } from './UserRepos';
+import { LoadStatus } from '../../../constants/Status';
+import api from '../../../api';
+import { setContributorsChunk } from '../../../actionCreator';
 
 let reposList = [] as Repository[];
 let login: string;

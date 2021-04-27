@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { RepositoryViewProps } from './index';
-import { Button } from 'primereact/button';
-import { Badge } from 'primereact/badge';
+import { RepositoryViewProps } from './RepositoryView';
 import api from '../../api';
+import { Tag } from 'primereact/tag';
+
+const viewLanguages = (langArr: { [x: string]: string }, field: string) => {
+  return langArr ? langArr[field] : 0;
+};
 
 const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
-  const [languages, setLanguages] = useState<any>();
+  const [languages, setLanguages] = useState({});
 
   useEffect(() => {
-    api.getRepoField(`${data.owner?.login}`, data.name, 'languages').then((data) => {
-      setLanguages(data);
-    });
+    data.owner?.login &&
+      api.getRepoField(`${data.owner.login}`, data.name, 'languages').then((data) => {
+        setLanguages(data);
+      });
   }, []);
 
   return (
-    <div>
+    <section>
       {data.language && (
-        <Button
-          type="button"
-          label={data.language}
-          className="p-mr-2 p-button-danger p-button-rounded"
-        >
-          <Badge value={languages ? languages[data.language] : 0} />
-        </Button>
+        <Tag value={data.language} className="p-mr-2">
+          <span className="p-ml-2 text">{viewLanguages(languages, data.language)}</span>
+        </Tag>
       )}
 
       {data.languages &&
         data.languages.map((lang: string, index: number) => {
           return (
-            <Button
-              key={index + lang}
-              type="button"
-              label={lang}
-              className="p-mr-2 p-button-rounded"
-            >
-              <Badge value={languages ? languages[lang] : 0} />
-            </Button>
+            <Tag key={index + lang} className="p-mr-2" severity="info" value={lang}>
+              <span className="p-ml-2 text">{viewLanguages(languages, lang)}</span>
+            </Tag>
           );
         })}
-    </div>
+    </section>
   );
 };
 

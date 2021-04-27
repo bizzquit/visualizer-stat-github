@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import Navbar from '../components/Navbar';
-import api from '../api';
+import Navbar from './Navbar';
+import api from '../../api';
 import {
   addToReposList,
   setReposListLoading,
   setUserInfo,
   setUserInfoLoading,
-} from '../actionCreator';
+} from '../../actionCreator';
 
 export default connect(
   () => ({}),

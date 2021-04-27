@@ -8,7 +8,7 @@ import './styles.css';
 
 const Navbar: React.FC<SearchCardProps & RouteComponentProps> = ({ onSubmit, history }) => {
   return (
-    <div className="p-d-flex p-ai-center toolbar">
+    <div className="p-d-flex p-ai-center toolbar p-shadow-3">
       <Switch>
         <Route exact path="/find" children={<Search onSubmit={onSubmit} />} />
         <Route

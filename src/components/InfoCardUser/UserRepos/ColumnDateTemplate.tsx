@@ -2,7 +2,7 @@ import React from 'react';
 import { IRowData } from '../../../interfaces/types';
 
 function formatDate(date: string) {
-  const format: any = {
+  const format: { [x: string]: string } = {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

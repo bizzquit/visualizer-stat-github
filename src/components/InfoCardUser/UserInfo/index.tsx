@@ -21,8 +21,8 @@ const UserInfo: React.FC<UserCardProps> = ({ user }) => {
     <Card
       title={user.name}
       header={<HeaderContext user={user} />}
-      className="p-d-flex p-flex-column p-p-2 p-mr-3 card-user"
-      style={{ backgroundColor: 'var(--blue-100)' }}
+      className="p-d-flex p-flex-column p-p-2 p-mr-3 card-user p-shadow-3"
+      style={{ backgroundColor: 'var(--surface-f)' }}
     >
       <hr className="p-m-0" style={{ border: '1px solid var(--bluegray-500)' }} />
       <div className="p-d-flex p-flex-column">

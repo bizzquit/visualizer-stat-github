@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RepositoryViewProps } from './index';
+import { RepositoryViewProps } from './RepositoryView';
 import api from '../../api';
 import { Chart } from 'primereact/chart';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -51,21 +51,21 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const lightOptions = {
     legend: {
       labels: {
-        fontColor: '#495057',
+        fontColor: 'white',
       },
     },
     scales: {
       xAxes: [
         {
           ticks: {
-            fontColor: '#495057',
+            fontColor: 'white',
           },
         },
       ],
       yAxes: [
         {
           ticks: {
-            fontColor: '#495057',
+            fontColor: 'white',
           },
         },
       ],

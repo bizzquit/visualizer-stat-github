@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RepositoryViewProps } from './index';
+import { RepositoryViewProps } from './RepositoryView';
 // import { PeopleIcon, StarIcon } from '@primer/styled-octicons';
 import { PeopleIcon, StarIcon } from '@primer/octicons-react';
 import { AvatarGroup } from 'primereact/avatargroup';

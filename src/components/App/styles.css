@@ -2,4 +2,11 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: var(--surface-a);
+  color: var(--text-color-secondary);
+  /*color: var(--text-color);*/
+}
+
+.container {
+
 }

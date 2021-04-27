@@ -1,5 +1,5 @@
 import React from 'react';
-import { RepositoryViewProps } from './index';
+import { RepositoryViewProps } from './RepositoryView';
 import { GitForkIcon } from '@primer/octicons-react';
 
 const Header: React.FC<RepositoryViewProps> = ({ data }) => {

@@ -3,10 +3,13 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { createStore } from 'redux';
 import { rootReducer } from '../../reducers';
 import { Provider } from 'react-redux';
-import Navbar from '../../containers/Navbar';
-import InfoCardUser from '../../containers/InfoCardUser';
+import Navbar from '../Navbar';
+import InfoCardUser from '../InfoCardUser';
 import './styles.css';
-import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
+// import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
+// import 'primereact/resources/themes/vela-orange/theme.css';
+import 'primereact/resources/themes/bootstrap4-dark-blue/theme.css';
+
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';

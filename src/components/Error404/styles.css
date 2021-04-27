@@ -1,0 +1,18 @@
+.image-404 {
+    width:250px;
+}
+
+.code-error {
+    font-size:100px;
+    line-height: 100px;
+    padding:0;
+    text-align: center;
+}
+
+.block__text-error {
+    padding:10px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    background-color: white;
+    color: #2A323D;
+}

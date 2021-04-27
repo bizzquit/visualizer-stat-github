@@ -1,11 +1,12 @@
 import React from 'react';
 import UserInfo from './UserInfo';
-import UserRepos from '../../containers/UserRepos';
+import UserRepos from './UserRepos/index';
 import { LoadStatus } from '../../constants/Status';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { User } from '../../interfaces/api-types';
 import { Route, Switch } from 'react-router-dom';
-import RepositoryView from '../../containers/RepositoryView';
+import RepositoryView from '../RepositoryView/index';
+import Error404 from '../Error404';
 
 import './styles.css';
 
@@ -20,7 +21,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
         switch (user.loadStatus) {
           case LoadStatus.Success:
             return (
-              <div className="p-d-lg-flex p-d-sm-inline p-d-md-inline p-m-3 information">
+              <div className="p-d-lg-flex p-d-sm-inline p-d-md-inline p-mt-3 information">
                 <UserInfo user={user} />
                 <Switch>
                   <Route
@@ -42,9 +43,8 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             );
           case LoadStatus.Error:
             return (
-              <div className="p-ai-center p-mt-4 p-m-auto">
-                <h2>Пользователь не найден</h2>
-                <p>Попробуйте уточнить логин для поиска</p>
+              <div className="p-ai-center p-m-auto p-d-flex">
+                <Error404 />
               </div>
             );
           case LoadStatus.Loading:

@@ -35,6 +35,9 @@ const UserReposStat: React.FC<UserReposStatProps> = ({ reposStat }) => {
           legend: {
             display: true,
             position: 'right',
+            labels: {
+              fontColor: 'rgba(255, 255, 255, 0.6)',
+            },
           },
         }}
       />
