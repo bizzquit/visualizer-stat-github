@@ -33,10 +33,6 @@ class Api {
     return Api.fetchData(`GET /users/${login}/received_events`, { per_page });
   }
 
-  getContributions(login: string): Promise<Repository[]> {
-    return Api.fetchData(`GET /users/${login}/contributions`);
-  }
-
   getRepoField(
     login: string,
     repo: string,
@@ -57,7 +53,9 @@ class Api {
   }
 
   private static fetchData(url: string, params?: Params) {
-    return octokit.request(url, params).then((res) => res.data);
+    return octokit.request(url, params).then((res) => {
+      return res.data;
+    });
   }
 }
 

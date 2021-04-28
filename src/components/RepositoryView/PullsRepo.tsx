@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './RepositoryView';
 import api from '../../api';
 import { Chart } from 'primereact/chart';
-import { ProgressSpinner } from 'primereact/progressspinner';
+// import { ProgressSpinner } from 'primereact/progressspinner';
 import { days, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
 
 const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
@@ -53,6 +53,7 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       labels: {
         fontColor: 'white',
       },
+      position: 'right',
     },
     scales: {
       xAxes: [
@@ -74,9 +75,7 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
 
   return (
     <div className="chart__closed-chart">
-      {!loading ? (
-        <ProgressSpinner />
-      ) : (
+      {loading && (
         <>
           <h3>Закрытие пулл реквестов(pull requests):</h3>
           {timeClosedPull ? (

@@ -4,7 +4,6 @@
   flex-direction: column;
   background-color: var(--surface-a);
   color: var(--text-color-secondary);
-  /*color: var(--text-color);*/
 }
 
 .container {

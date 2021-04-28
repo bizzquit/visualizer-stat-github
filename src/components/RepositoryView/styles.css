@@ -57,7 +57,11 @@
 }
 
 .chart__closed-chart {
-    width:50%;
+    width:100%;
     min-width: 350px;
 
 }
+.fork {
+  color: #FF5252;
+}
+

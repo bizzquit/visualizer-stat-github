@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './RepositoryView';
 import { Chart } from 'primereact/chart';
-import { ProgressSpinner } from 'primereact/progressspinner';
+// import { ProgressSpinner } from 'primereact/progressspinner';
 import api from '../../api';
 
 export const days = (dateCreated: string, dateClosed: string) => {
@@ -63,16 +63,16 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
         type: 'line',
         label: `Ср.время закрытия ${timeClosedIssue} дн.`,
         borderColor: '#0945d9',
-        borderWidth: 2,
+        backgroundColor: '#0945d9',
+        borderWidth: 0,
         fill: false,
         data: halfClosedIssue,
       },
       {
         type: 'bar',
         label: 'Время закрытия(в днях)',
-        backgroundColor: 'red',
+        backgroundColor: '#ec4657',
         data: closedIssue,
-        borderColor: '#ec4657',
         borderWidth: 2,
       },
     ],
@@ -83,6 +83,7 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       labels: {
         fontColor: 'white',
       },
+      position: 'right',
     },
     scales: {
       xAxes: [
@@ -105,8 +106,9 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   return (
     <div className="chart__closed-chart">
       {!loading ? (
-        <ProgressSpinner />
+        <p>Loading ...</p>
       ) : (
+        // <ProgressSpinner />
         <>
           <h3>Закрытие задач(issues):</h3>
           {timeClosedIssue ? (

@@ -20,7 +20,7 @@ const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
   return (
     <section>
       {data.language && (
-        <Tag value={data.language} className="p-mr-2">
+        <Tag value={data.language} severity="success" className="p-mr-2 p-mb-2" rounded>
           <span className="p-ml-2 text">{viewLanguages(languages, data.language)}</span>
         </Tag>
       )}
@@ -28,7 +28,7 @@ const Languages: React.FC<RepositoryViewProps> = ({ data }) => {
       {data.languages &&
         data.languages.map((lang: string, index: number) => {
           return (
-            <Tag key={index + lang} className="p-mr-2" severity="info" value={lang}>
+            <Tag key={index + lang} className="p-mr-2 p-mb-2" severity="info" value={lang} rounded>
               <span className="p-ml-2 text">{viewLanguages(languages, lang)}</span>
             </Tag>
           );
