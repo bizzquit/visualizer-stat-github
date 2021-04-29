@@ -61,8 +61,8 @@
     min-width: 350px;
 
 }
-.fork {
-  color: #FF5252;
+.fork svg {
+  vertical-align: top;
 }
 
 .title-stars,
