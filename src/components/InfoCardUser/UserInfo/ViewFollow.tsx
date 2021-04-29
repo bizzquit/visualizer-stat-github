@@ -15,6 +15,7 @@ const ViewFollow: React.FC<UserCardProps> = ({ user }) => {
         <i className="p-mr-2">
           {rounding(user.followers)} <b>Подписчиков</b>
         </i>
+        <br />
         <PersonIcon size={16} className="p-mr-1" />
         <i>
           {user.following} <b>Подписок</b>

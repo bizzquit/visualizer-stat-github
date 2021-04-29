@@ -104,7 +104,6 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
       {!loading ? (
         <p>Loading ...</p>
       ) : (
-        // <ProgressSpinner />
         <>
           <h3>Закрытие задач(issues):</h3>
           {timeClosedIssue ? (
@@ -112,7 +111,7 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
               <Chart type="bar" data={chartData} options={lightOptions} />
             </div>
           ) : (
-            <h4>Нет закрытых задач</h4>
+            <p>Нет закрытых задач</p>
           )}
         </>
       )}

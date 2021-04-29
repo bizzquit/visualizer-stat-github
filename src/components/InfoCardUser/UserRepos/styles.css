@@ -20,7 +20,7 @@
 }
 
 .secondary-col {
-    color: #6e6e6e;
+    color: #9f9c9c;
 }
 
 .table {
@@ -65,5 +65,7 @@
 
 .repo-link {
     cursor: pointer;
-    color: #1393ff;
+    color: #8dd0ff;
+    font-weight: 400;
+    text-transform: uppercase;
 }

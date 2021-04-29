@@ -5,6 +5,31 @@ import { Chart } from 'primereact/chart';
 import { getDiffInDays, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
 import { NumbersDaysInYear } from '../../constants/numberDaysInYear ';
 
+const lightOptions = {
+  legend: {
+    labels: {
+      fontColor: 'white',
+    },
+    position: 'right',
+  },
+  scales: {
+    xAxes: [
+      {
+        ticks: {
+          fontColor: 'white',
+        },
+      },
+    ],
+    yAxes: [
+      {
+        ticks: {
+          fontColor: 'white',
+        },
+      },
+    ],
+  },
+};
+
 const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [labelsPull, setLabelsPull] = useState<number[]>([]);
@@ -49,31 +74,6 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
     ],
   };
 
-  const lightOptions = {
-    legend: {
-      labels: {
-        fontColor: 'white',
-      },
-      position: 'right',
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontColor: 'white',
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            fontColor: 'white',
-          },
-        },
-      ],
-    },
-  };
-
   return (
     <div className="chart__closed-chart">
       {loading && (
@@ -84,7 +84,7 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
               <Chart type="bar" data={chartData} options={lightOptions} />
             </div>
           ) : (
-            <h4>Нет закрытых пулл реквестов</h4>
+            <p>Нет закрытых пулл реквестов</p>
           )}
         </>
       )}

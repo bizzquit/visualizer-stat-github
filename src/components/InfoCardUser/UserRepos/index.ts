@@ -25,13 +25,11 @@ export default connect(
         const languagePromises = chunk.map((repo) => api.getRepoLanguages(login, repo.name));
 
         Promise.all([...contributorPromises, ...languagePromises]).then((data) => {
-          const contributors = data.slice(0, chunk.length);
+          const contributors = data.slice();
           const languages = data.slice(chunk.length);
 
           chunk.forEach((repo, index) => {
-            contributors[index]
-              ? (repo.contributors = contributors[index].length)
-              : (repo.contributors = 0);
+            repo.contributors = contributors[index] ? contributors[index].length : 0;
             repo.languages = Object.keys(languages[index]).filter((lang) => lang !== repo.language);
           });
           dispatch(setContributorsChunk(e.first, chunk));

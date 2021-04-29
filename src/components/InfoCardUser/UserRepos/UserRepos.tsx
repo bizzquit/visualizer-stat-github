@@ -44,7 +44,6 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
     if (repositoryData.data) {
       const sortData: Repository[] = sorting(repositoryData.data);
       setRepos(sortData);
-
       if (repositoryData.loadStatus === LoadStatus.Success) {
         onPage({ first: 0, rows: rows });
       }
@@ -76,7 +75,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
       <>
         <Button
           user={rowData.git_url}
-          className="p-p-1 p-jc-center  p-button-text"
+          className="p-p-1 p-jc-center p-button-text"
           onClick={copyRepo}
         >
           <CopyIcon size={24} />
