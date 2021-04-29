@@ -1,25 +1,31 @@
 import React from 'react';
+import { BrowserRouter, Redirect } from 'react-router-dom';
+import { createStore } from 'redux';
+import { rootReducer } from '../../reducers';
+import { Provider } from 'react-redux';
+import Navbar from '../Navbar';
+import InfoCardUser from '../InfoCardUser';
+import './styles.css';
+import 'primereact/resources/themes/bootstrap4-dark-blue/theme.css';
 
-import './App.css';
-import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { rootReducer } from '../../reducers';
-import Navbar from '../../containers/Navbar';
-import UserCard from '../../containers/UserCard';
 
 const store = createStore(rootReducer);
 
-export default () => {
+const App: React.FC = () => {
   return (
-    <Provider store={store}>
-      <Navbar />
-      <div className="p-d-flex container">
-        <UserCard />
-      </div>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Redirect from="/" to="/find" />
+        <Navbar />
+        <div className="p-d-flex">
+          <InfoCardUser />
+        </div>
+      </Provider>
+    </BrowserRouter>
   );
 };
+
+export default App;

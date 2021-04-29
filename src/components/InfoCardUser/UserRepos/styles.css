@@ -1,0 +1,71 @@
+.p-datatable {
+    width: 100%;
+    font-weight: 700;
+}
+
+.stars {
+    font-weight: 700;
+}
+
+.outStock {
+    color: #FF5252;
+}
+
+.lowStock {
+    color: #FFA726;
+}
+
+.inStock {
+    color: #66BB6A;
+}
+
+.secondary-col {
+    color: #9f9c9c;
+}
+
+.table {
+    font-size: 14px;
+}
+
+.p-datatable .row-accessories {
+    background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.add-data-row {
+    display: flex;
+    align-items: center;
+}
+
+.stat-wrapper {
+    margin: -20px 0 20px;
+    width:80%;
+    min-width:450px;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    padding-left: 3px !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+    padding-left: 0 !important;
+}
+
+.add-data-info {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.spinner-row {
+    height: 14px;
+}
+
+.secondary-lang-col {
+    max-width: 120px;
+}
+
+.repo-link {
+    cursor: pointer;
+    color: #8dd0ff;
+    font-weight: 400;
+    text-transform: uppercase;
+}

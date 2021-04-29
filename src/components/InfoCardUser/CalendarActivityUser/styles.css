@@ -1,0 +1,9 @@
+.p-selectbutton .p-button {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-right: 5px !important;
+    border-radius: 5px !important;
+}
+.p-highlight {
+    background: #37393c !important;
+}

@@ -1,37 +1,63 @@
-import { Octokit } from "@octokit/core";
+import { Octokit } from '@octokit/core';
+import { Contributor, Repository, User } from '../interfaces/api-types';
 const octokit = new Octokit({ auth: '1dc6e83184b380e6172ccded0c522341fcdac7ca' });
 
 type Params = {
-  type?:string,
-  per_page?:number
-}
+  type?: string;
+  per_page?: number;
+  state?: string;
+};
 
-export default class Api {
-  private constructor() {}
-  private static api: Api | undefined;
-
-  static getInstance() {
-    if (!this.api) {
-      this.api = new Api();
-    }
-    return this.api;
+class Api {
+  fetchUserInfo(login: string): Promise<User> {
+    return Api.fetchData(`GET /users/${login}`);
   }
 
-  fetchUserInfo(login: string) {
-    return this.fetchData(`GET /users/${login}`);
+  getUserPublicRepos(
+    login: string,
+    type: string = 'public',
+    per_page: number = 100
+  ): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/repos`, { type, per_page });
   }
 
-  getPublicReposUser(login:string){
-    return this.fetchData(`GET /users/${login}/repos`,{type:'public', per_page:100})
+  getRepoContributors(login: string, repo: string): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/contributors`);
   }
 
-  private fetchData(url: string, params?:Params) {
-    return octokit.request(url,params).then((res) => {
-      if ([404, 500].includes(res.status)) {
-        throw res;
-      } else {
-        return res.data;
-      }
+  getRepoLanguages(login: string, repo: string): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/languages`);
+  }
+
+  getActivityUser(login: string, per_page: number = 100): Promise<Repository[]> {
+    return Api.fetchData(`GET /users/${login}/received_events`, { per_page });
+  }
+
+  getRepoField(
+    login: string,
+    repo: string,
+    field: string,
+    per_page: number = 100
+  ): Promise<Contributor[]> {
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { per_page });
+  }
+
+  getRepoIssuesAndPull(
+    login: string,
+    repo: string,
+    field: string,
+    state = 'all',
+    per_page: number = 100
+  ) {
+    return Api.fetchData(`GET /repos/${login}/${repo}/${field}`, { state, per_page });
+  }
+
+  private static fetchData(url: string, params?: Params) {
+    return octokit.request(url, params).then((res) => {
+      return res.data;
     });
   }
 }
+
+const api = new Api();
+export default api;

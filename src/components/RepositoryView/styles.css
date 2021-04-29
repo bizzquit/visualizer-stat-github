@@ -1,0 +1,72 @@
+.goBack-button {
+    width: max-content;
+    height:40px;
+}
+
+.repo-info-container {
+    width: 100%;
+    padding: 0 30px;
+}
+
+
+.repo-header {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.owner-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 3px;
+}
+
+.lang-chips {
+    font-size: 14px;
+    padding: 6px 12px;
+    background: #1393ff;
+    color: #fff;
+    border-radius: 16px;
+}
+
+.lang-chips + .lang-chips {
+    margin-left: 7px;
+}
+
+.main-chips {
+    background: #ffa057;
+}
+
+.data-block {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.icon-text {
+    font-size: 24px;
+    margin-left: 6px;
+}
+
+.badge {
+    color: #000;
+}
+
+.chart__closed-chart {
+    width:100%;
+    min-width: 350px;
+
+}
+.fork svg {
+  vertical-align: top;
+}
+
+.title-stars,
+.title-contributors{
+    font-size: 18px;
+    font-weight:700;
+}

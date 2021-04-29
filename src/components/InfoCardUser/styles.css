@@ -1,0 +1,25 @@
+.preload-wrapper {
+    align-self: center;
+    margin:0 auto;
+}
+
+.error-block {
+    padding: 40px 0;
+}
+
+.avatar {
+    width:60% !important;
+    border: 1px solid var(--bluegray-500);
+}
+
+.user-card {
+    width:100%;
+    max-width:1280px;
+
+}
+
+.information {
+    width:100%;
+    max-width:1280px;
+    margin: 0 auto;
+}
