@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { createStore } from 'redux';
 import { rootReducer } from '../../reducers';
 import { Provider } from 'react-redux';
@@ -28,4 +28,4 @@ const App: React.FC = () => {
   );
 };
 
-export default withRouter(App);
+export default App;

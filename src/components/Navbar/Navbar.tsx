@@ -1,12 +1,14 @@
 import React from 'react';
 import Search from './Search';
 import { SearchCardProps } from '../../interfaces/types';
-import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Button } from 'primereact/button';
+import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 
-const Navbar: React.FC<SearchCardProps & RouteComponentProps> = ({ onSubmit, history }) => {
+const Navbar: React.FC<SearchCardProps> = ({ onSubmit }) => {
+  const history = useHistory();
   return (
     <div className="p-d-flex p-ai-center toolbar p-shadow-3">
       <Switch>
@@ -27,4 +29,4 @@ const Navbar: React.FC<SearchCardProps & RouteComponentProps> = ({ onSubmit, his
   );
 };
 
-export default withRouter(Navbar);
+export default Navbar;

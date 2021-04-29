@@ -7,3 +7,5 @@ export type Repository = components['schemas']['repository'] & {
   languages: string[];
 };
 export type Contributor = components['schemas']['contributor'];
+
+export type Issues = components['schemas']['issue'][];

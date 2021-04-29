@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './RepositoryView';
 import api from '../../api';
 import { Chart } from 'primereact/chart';
-// import { ProgressSpinner } from 'primereact/progressspinner';
-import { days, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
+import { getDiffInDays, halfMeanAll, labelsArray, averageAll, averageSingle } from './IssueRepo';
+import { NumbersDaysInYear } from '../../constants/numberDaysInYear ';
 
 const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -13,9 +13,10 @@ const PullsRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [timeClosedPull, setTimeClosedPull] = useState(-1);
 
   useEffect(() => {
-    const YEAR: number = 365;
     api.getRepoIssuesAndPull(`${data.owner?.login}`, data.name, 'pulls', 'closed').then((data) => {
-      const filterData = data.filter((el: any) => days(el.created_at, el.closed_at) < YEAR);
+      const filterData = data.filter(
+        (el: any) => getDiffInDays(el.created_at, el.closed_at) < NumbersDaysInYear
+      );
       setLabelsPull(labelsArray(filterData));
       setClosedPull(averageSingle(filterData));
       setTimeClosedPull(averageAll(filterData));

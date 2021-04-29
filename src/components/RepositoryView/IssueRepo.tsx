@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { RepositoryViewProps } from './RepositoryView';
 import { Chart } from 'primereact/chart';
-// import { ProgressSpinner } from 'primereact/progressspinner';
 import api from '../../api';
+import { NumbersDaysInYear } from '../../constants/numberDaysInYear ';
 
-export const days = (dateCreated: string, dateClosed: string) => {
-  const dateStart = new Date(dateCreated);
-  const dateEnd = new Date(dateClosed);
-  return Math.ceil((dateEnd.getTime() - dateStart.getTime()) / (1000 * 3600 * 24));
+export const getDiffInDays = (startDate: string, endDate: string) => {
+  return Math.floor((+new Date(endDate) - +new Date(startDate)) / (1000 * 3600 * 24));
 };
 
 export const labelsArray = (array: number[]) => {
@@ -15,7 +13,7 @@ export const labelsArray = (array: number[]) => {
 };
 
 export const averageSingle = (array: number[]) => {
-  return array.map((el: any) => days(el.created_at, el.closed_at));
+  return array.map((el: any) => getDiffInDays(el.created_at, el.closed_at));
 };
 
 export const halfMeanAll = (array: number[], mean: number) => {
@@ -23,13 +21,38 @@ export const halfMeanAll = (array: number[], mean: number) => {
 };
 
 export const averageAll = (data: number[]) => {
-  const array: number[] = data.map((el: any) => days(el.created_at, el.closed_at));
+  const array: number[] = data.map((el: any) => getDiffInDays(el.created_at, el.closed_at));
   if (array.length > 1) {
     const sum = array.reduce((acc, curr) => acc + curr);
     return Math.floor(sum / array.length);
   } else {
     return array[0] || 0;
   }
+};
+
+const lightOptions = {
+  legend: {
+    labels: {
+      fontColor: 'white',
+    },
+    position: 'right',
+  },
+  scales: {
+    xAxes: [
+      {
+        ticks: {
+          fontColor: 'white',
+        },
+      },
+    ],
+    yAxes: [
+      {
+        ticks: {
+          fontColor: 'white',
+        },
+      },
+    ],
+  },
 };
 
 const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
@@ -39,20 +62,18 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
   const [halfClosedIssue, setHalfClosedIssue] = useState<number[]>([]);
   const [timeClosedIssue, setTimeClosedIssue] = useState(-1);
 
-  const YEAR: number = 365;
-  let filterData: number[] = [];
-
   useEffect(() => {
     api.getRepoIssuesAndPull(`${data.owner?.login}`, data.name, 'issues', 'closed').then((data) => {
-      filterData = data.filter((el: any) => days(el.created_at, el.closed_at) < YEAR);
+      const filterData: number[] = data.filter(
+        (el: { created_at: string; closed_at: string }) =>
+          getDiffInDays(el.created_at, el.closed_at) < NumbersDaysInYear
+      );
+
       setLabelsIssue(labelsArray(filterData));
       setClosedIssue(averageSingle(filterData));
       setTimeClosedIssue(averageAll(filterData));
       setHalfClosedIssue(halfMeanAll(filterData, timeClosedIssue));
-
-      if (timeClosedIssue >= 0) {
-        setLoading(true);
-      }
+      setLoading(true);
     });
   }, [timeClosedIssue]);
 
@@ -76,31 +97,6 @@ const IssueRepo: React.FC<RepositoryViewProps> = ({ data }) => {
         borderWidth: 2,
       },
     ],
-  };
-
-  const lightOptions = {
-    legend: {
-      labels: {
-        fontColor: 'white',
-      },
-      position: 'right',
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontColor: 'white',
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            fontColor: 'white',
-          },
-        },
-      ],
-    },
   };
 
   return (

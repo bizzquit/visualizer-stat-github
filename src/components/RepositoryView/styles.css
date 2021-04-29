@@ -65,3 +65,8 @@
   color: #FF5252;
 }
 
+.title-stars,
+.title-contributors{
+    font-size: 18px;
+    font-weight:700;
+}
