@@ -110,7 +110,7 @@ const UserRepos: React.FC<UserCardProps> = ({ repositoryData, onPage }) => {
             header="Имя репозитория"
             body={ColumnNameRepoTemplate}
             filter
-            filterPlaceholder="Поиск по названию"
+            filterPlaceholder="Поиск по имени"
           />
           <Column
             className="secondary-col"

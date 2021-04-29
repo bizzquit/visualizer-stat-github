@@ -1,8 +1,10 @@
 .card-user {
   /*border: 1px solid var(--bluegray-500);*/
   max-width:400px;
-  height:100%;
+  /*height:100%;*/
   min-height:90vh;
+  margin-bottom: 25px;
+  align-items: center;
   color:var(--text-color-secondary);
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { User } from '../../../interfaces/api-types';
 import GitHubCalendar from 'react-github-calendar';
 import ReactTooltip from 'react-tooltip';
@@ -33,8 +33,6 @@ const thisYear: number = new Date().getFullYear();
 
 const CalendarActivityUser: React.FC<UserCardProps> = ({ user }) => {
   const [year, setYear] = useState(thisYear);
-
-  useEffect(() => {}, [year]);
 
   return (
     <>

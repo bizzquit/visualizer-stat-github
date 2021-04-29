@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { RepositoryViewProps } from './RepositoryView';
-// import { PeopleIcon, StarIcon } from '@primer/styled-octicons';
 import { PeopleIcon, StarIcon } from '@primer/octicons-react';
 import { AvatarGroup } from 'primereact/avatargroup';
 import { Avatar } from 'primereact/avatar';
 import { useEffect } from 'react';
 import api from '../../api';
 
-const getFieldsRepo = (data: any): string[] => {
+const getFieldsRepo = (data: string | any[]): string[] => {
   const array: string[] = [];
   if (data) {
     for (let i = 0; i < data.length; i++) {

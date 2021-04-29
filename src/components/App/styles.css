@@ -1,9 +1,16 @@
+body {
+  background-color: var(--surface-a);
+  color: var(--text-color-secondary);
+}
+
 #root {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  background-color: var(--surface-a);
-  color: var(--text-color-secondary);
+}
+
+#root a {
+  color: #8dd0ff;
 }
 
 .container {

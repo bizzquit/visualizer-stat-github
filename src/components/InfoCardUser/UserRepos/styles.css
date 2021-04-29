@@ -43,7 +43,11 @@
 }
 
 .p-datatable .p-datatable-tbody > tr > td {
-    padding: 3px !important;
+    padding-left: 3px !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+    padding-left: 0 !important;
 }
 
 .add-data-info {
